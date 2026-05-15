@@ -5,983 +5,795 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商家混资活动 · 周末促&周年庆 | 小红书</title>
 <style>
-/* ===== TOKENS ===== */
-:root {
-  --bg:          #FFF0F3;
-  --pink:        #FF6B8A;
-  --pink-light:  #FFB3C6;
-  --pink-pale:   #FFE4EC;
-  --teal:        #00BFA5;
-  --teal-light:  #B2DFDB;
-  --purple:      #9C6FE4;
-  --purple-pale: #EDE7F6;
-  --yellow:      #FFD600;
-  --yellow-pale: #FFF9C4;
-  --dark:        #1E1E2E;
-  --gray:        #6B7280;
-  --white:       #FFFFFF;
-  --card-r:      20px;
+:root{
+  --bg:#FFF0F3;--pink:#FF6B8A;--pl:#FFB3C6;--pp:#FFE4EC;
+  --teal:#00BFA5;--tl:#B2DFDB;
+  --pu:#9C6FE4;--pup:#EDE7F6;
+  --y:#FFD600;--yp:#FFF9C4;
+  --dark:#1E1E2E;--g:#6B7280;--w:#fff;
+  --r:18px;
 }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'PingFang SC','Helvetica Neue',Arial,sans-serif;background:var(--dark)}
+#deck{width:100vw;height:100vh;position:relative;overflow:hidden}
 
-/* ===== RESET ===== */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+/* slides */
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;overflow:hidden;
+  opacity:0;pointer-events:none;transform:translateX(60px);
+  transition:opacity .45s cubic-bezier(.4,0,.2,1),transform .45s cubic-bezier(.4,0,.2,1)}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+.slide.prev{opacity:0;transform:translateX(-60px)}
 
-html, body {
-  width: 100%; height: 100%;
-  overflow: hidden;
-  font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
-  background: var(--dark);
-}
+/* layout helpers */
+.si{position:relative;z-index:1;width:100%;height:100%;display:flex;flex-direction:column;padding:4vh 5vw}
+.si.row{flex-direction:row}
+.blob{position:absolute;border-radius:50%;z-index:0}
 
-/* ===== DECK CONTAINER ===== */
-#deck {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-}
+/* type */
+.ey{font-size:clamp(10px,.85vw,12px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:.8vh}
+.h1{font-size:clamp(30px,3.8vw,50px);font-weight:900;color:var(--dark);line-height:1.15}
+.h2{font-size:clamp(22px,2.5vw,34px);font-weight:800;color:var(--dark);line-height:1.2}
+.body{font-size:clamp(12px,1vw,15px);color:var(--g);line-height:1.7}
+.sm{font-size:clamp(10px,.85vw,13px);color:var(--g);line-height:1.65}
+.div{width:44px;height:4px;background:var(--pink);border-radius:4px;margin:1.2vh 0}
 
-/* ===== SLIDES ===== */
-.slide {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  display: flex;
-  overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(60px);
-  transition: opacity 0.45s cubic-bezier(.4,0,.2,1),
-              transform 0.45s cubic-bezier(.4,0,.2,1);
-}
-.slide.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(0);
-}
-.slide.prev {
-  opacity: 0;
-  transform: translateX(-60px);
-}
+/* cards */
+.card{background:var(--w);border-radius:var(--r);box-shadow:0 3px 16px rgba(0,0,0,.07);padding:2vh 1.6vw}
+.warn{background:var(--pp);border-left:4px solid var(--pink);border-radius:0 12px 12px 0;padding:1.2vh 1.2vw;font-size:clamp(10px,.85vw,13px);color:var(--dark);line-height:1.6}
+.tag{display:inline-flex;align-items:center;gap:5px;background:var(--pp);border-radius:50px;padding:5px 14px;font-size:clamp(10px,.8vw,12px);font-weight:700;color:var(--pink);width:fit-content}
+.pill{display:inline-block;border-radius:50px;padding:4px 12px;font-size:clamp(10px,.8vw,12px);font-weight:700}
+.pill.p{background:var(--pink);color:#fff}.pill.t{background:var(--teal);color:#fff}.pill.pu{background:var(--pu);color:#fff}.pill.y{background:var(--y);color:var(--dark)}
 
-/* ===== BLOBS ===== */
-.blob { position: absolute; border-radius: 50%; z-index: 0; }
+/* Q&A cards */
+.qa{background:var(--w);border-radius:14px;padding:1.4vh 1.3vw;border-left:4px solid var(--pink);box-shadow:0 2px 10px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:.5vh}
+.qa-q{font-size:clamp(11px,.88vw,14px);font-weight:700;color:var(--dark)}
+.qa-a{font-size:clamp(10px,.82vw,13px);color:var(--g);line-height:1.6}
+.qa.t{border-left-color:var(--teal)}.qa.pu{border-left-color:var(--pu)}.qa.y{border-left-color:var(--y)}
 
-/* ===== INNER LAYOUT ===== */
-.s-inner {
-  position: relative; z-index: 1;
-  width: 100%; height: 100%;
-  display: flex; flex-direction: column;
-  padding: 5vh 6vw;
-}
-.s-inner.row { flex-direction: row; }
+/* table */
+.tb{width:100%;border-collapse:collapse}
+.tb th{background:var(--pink);color:#fff;padding:.8vh 1vw;font-size:clamp(10px,.82vw,13px);font-weight:700;text-align:left}
+.tb th:first-child{border-radius:10px 0 0 0}.tb th:last-child{border-radius:0 10px 0 0}
+.tb td{padding:.8vh 1vw;font-size:clamp(10px,.82vw,13px);color:var(--dark);border-bottom:1px solid rgba(0,0,0,.05);vertical-align:top;line-height:1.55}
+.tb tr:last-child td{border-bottom:none}
+.tb tr:nth-child(even) td{background:rgba(255,107,138,.04)}
+.pass{color:var(--teal);font-weight:700}.fail{color:var(--pink);font-weight:700}
 
-/* ===== TYPOGRAPHY ===== */
-.eyebrow {
-  font-size: clamp(11px,1vw,13px); font-weight: 700; letter-spacing: 3px;
-  text-transform: uppercase; color: var(--pink); margin-bottom: 1vh;
-}
-.h1  { font-size: clamp(36px,4.5vw,58px); font-weight: 900; color: var(--dark); line-height: 1.1; }
-.h2  { font-size: clamp(26px,3vw,40px);   font-weight: 800; color: var(--dark); line-height: 1.2; }
-.h3  { font-size: clamp(16px,1.5vw,20px); font-weight: 700; color: var(--dark); }
-.body{ font-size: clamp(13px,1.1vw,16px); color: var(--gray); line-height: 1.7; }
-.body-sm { font-size: clamp(11px,0.9vw,14px); color: var(--gray); line-height: 1.65; }
+/* progress + nav */
+#progress{position:fixed;bottom:0;left:0;height:3px;background:var(--pink);transition:width .45s cubic-bezier(.4,0,.2,1);z-index:999}
+#slide-num{position:fixed;bottom:14px;right:20px;font-size:12px;font-weight:700;color:rgba(255,255,255,.3);z-index:999;font-family:monospace}
+#nav-dots{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:999}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.22);border:none;cursor:pointer;padding:0;transition:background .2s,transform .2s}
+.dot.active{background:var(--pink);transform:scale(1.4)}
+#hint{position:fixed;bottom:16px;left:18px;font-size:11px;color:rgba(255,255,255,.18);z-index:999}
 
-/* ===== BADGE / PILL ===== */
-.badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--pink-pale); border-radius: 50px;
-  padding: 6px 16px; width: fit-content;
-  font-size: clamp(11px,0.9vw,13px); font-weight: 700; color: var(--pink);
-  margin-bottom: 2vh;
-}
-.badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--pink); }
-.pill {
-  display: inline-block; border-radius: 50px;
-  padding: 5px 14px; font-size: clamp(11px,0.9vw,13px); font-weight: 700;
-}
-.pill.pink   { background: var(--pink);   color: white; }
-.pill.teal   { background: var(--teal);   color: white; }
-.pill.purple { background: var(--purple); color: white; }
-.pill.yellow { background: var(--yellow); color: var(--dark); }
+/* ——— SLIDE-SPECIFIC ——— */
 
-/* ===== DIVIDER ===== */
-.divider { width: 48px; height: 4px; background: var(--pink); border-radius: 4px; margin: 1.5vh 0; }
+/* S1 */
+#s1{background:linear-gradient(135deg,#FFF0F3,#F5E6FF)}
+#s1 .si{flex-direction:row;align-items:center;gap:5vw}
+.ctag{background:var(--pink);color:#fff;display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:50px;font-size:clamp(10px,.85vw,13px);font-weight:700;margin-bottom:2vh}
+.ctitle{font-size:clamp(28px,3.5vw,48px);font-weight:900;color:var(--dark);line-height:1.15;margin-bottom:1.5vh}
+.ctitle .hl{color:var(--pink)}
+.cta{margin-top:2.5vh;display:inline-flex;align-items:center;gap:8px;background:var(--pink);color:#fff;padding:11px 26px;border-radius:50px;font-size:clamp(12px,.9vw,14px);font-weight:800;box-shadow:0 6px 20px rgba(255,107,138,.35);width:fit-content}
+.srow{display:flex;gap:1.2vw}
+.sc{flex:1;background:#fff;border-radius:18px;padding:2vh 1.4vw;box-shadow:0 3px 18px rgba(255,107,138,.1)}
+.sc-i{font-size:clamp(16px,1.4vw,22px);margin-bottom:.6vh}
+.sc-v{font-size:clamp(24px,2.6vw,38px);font-weight:900;color:var(--dark);line-height:1}
+.sc-u{font-size:clamp(13px,1.2vw,18px);font-weight:700}
+.sc-l{font-size:clamp(9px,.75vw,12px);color:var(--g);margin-top:3px;font-weight:600}
 
-/* ===== CARD ===== */
-.card {
-  background: var(--white); border-radius: var(--card-r);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06); padding: 2.5vh 1.8vw;
-}
-.card.pink   { background: var(--pink-pale); }
-.card.teal   { background: var(--teal-light); }
-.card.purple { background: var(--purple-pale); }
-.card.yellow { background: var(--yellow-pale); }
+/* S3 S8 S13 S15 dark */
+.dark-slide{background:var(--dark)}
+.dark-slide .ey{color:var(--pl)}
+.dark-slide .h2{color:#fff}
 
-/* ===== WARN BOX ===== */
-.warn-box {
-  background: var(--pink-pale); border-left: 4px solid var(--pink);
-  border-radius: 0 12px 12px 0; padding: 1.2vh 1.2vw;
-  font-size: clamp(11px,0.9vw,14px); color: var(--dark); line-height: 1.6;
-}
+/* timeline */
+.tl{display:flex;gap:1.5vw;margin-bottom:2vh}
+.tl-i{flex:1;border-radius:18px;padding:2vh 1.8vw;position:relative;overflow:hidden}
+.tl-i.done{background:rgba(255,255,255,.07)}
+.tl-i.now{background:var(--pink)}
+.tl-i.soon{background:rgba(255,107,138,.18)}
+.tl-p{font-size:clamp(9px,.75vw,11px);font-weight:700;color:rgba(255,255,255,.5);margin-bottom:.5vh;letter-spacing:1px}
+.tl-i.now .tl-p{color:rgba(255,255,255,.8)}
+.tl-n{font-size:clamp(13px,1.2vw,18px);font-weight:800;color:#fff}
+.tl-s{font-size:clamp(10px,.82vw,13px);color:rgba(255,255,255,.6)}
+.tl-i.now .tl-s{color:rgba(255,255,255,.9)}
+.tl-b{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.2);border-radius:50px;padding:2px 9px;font-size:10px;font-weight:700;color:#fff}
+.drow{display:flex;gap:1.5vw}
+.dc{flex:1;border-radius:18px;padding:2vh 1.8vw;display:flex;flex-direction:column;gap:.6vh}
+.dc1{background:var(--pink)}.dc2{background:rgba(255,255,255,.09)}.dc3{background:rgba(0,191,165,.2)}
+.dl{font-size:clamp(10px,.82vw,13px);font-weight:700;color:rgba(255,255,255,.7)}
+.dv{font-size:clamp(28px,3vw,42px);font-weight:900;color:#fff;line-height:1}
+.ds{font-size:clamp(10px,.82vw,13px);color:rgba(255,255,255,.8)}
+.dch{display:inline-block;background:rgba(255,255,255,.2);border-radius:50px;padding:2px 10px;font-size:10px;font-weight:700;color:#fff;width:fit-content}
+.exbox{background:rgba(255,255,255,.06);border-radius:14px;padding:1.6vh 1.4vw;font-size:clamp(10px,.82vw,13px);color:rgba(255,255,255,.65);line-height:1.7}
+.exbox strong{color:rgba(255,255,255,.9)}
 
-/* ===== TABLE ===== */
-.s-table { width: 100%; border-collapse: collapse; }
-.s-table th {
-  background: var(--pink); color: white;
-  padding: 1vh 1.2vw; font-size: clamp(12px,0.9vw,14px); font-weight: 700; text-align: left;
-}
-.s-table th:first-child { border-radius: 12px 0 0 0; }
-.s-table th:last-child  { border-radius: 0 12px 0 0; }
-.s-table td {
-  padding: 0.9vh 1.2vw; font-size: clamp(11px,0.85vw,13px); color: var(--dark);
-  border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; line-height: 1.6;
-}
-.s-table tr:last-child td { border-bottom: none; }
-.s-table tr:nth-child(even) td { background: rgba(255,107,138,0.04); }
-.s-table .pass { color: var(--teal);  font-weight: 700; }
-.s-table .fail { color: var(--pink);  font-weight: 700; }
+/* merchant card */
+.mc{background:#fff;border-radius:14px;padding:1.4vh 1.3vw;display:flex;gap:1vw;align-items:flex-start;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.mc-i{font-size:clamp(18px,1.5vw,24px);flex-shrink:0}
+.mc-t{font-size:clamp(12px,.9vw,14px);font-weight:700;color:var(--dark);margin-bottom:2px}
+.mc-d{font-size:clamp(10px,.82vw,13px);color:var(--g);line-height:1.55}
 
-/* ===== VI LIST ===== */
-.vi-list { list-style: none; }
-.vi-list li {
-  font-size: clamp(11px,0.85vw,13px); color: var(--gray); line-height: 1.7;
-  padding-left: 14px; position: relative;
-}
-.vi-list li::before {
-  content: '·'; position: absolute; left: 0;
-  color: var(--pink); font-weight: 900; font-size: 16px;
-}
+/* req item */
+.ri{display:flex;gap:.8vw;align-items:flex-start;padding:1.2vh 1vw;border-radius:12px;background:var(--bg)}
+.rdot{width:9px;height:9px;border-radius:50%;background:var(--pink);flex-shrink:0;margin-top:4px}
 
-/* ===== PROGRESS BAR ===== */
-#progress {
-  position: fixed; bottom: 0; left: 0; height: 3px;
-  background: var(--pink);
-  transition: width 0.45s cubic-bezier(.4,0,.2,1);
-  z-index: 1000;
-}
+/* path card */
+.pc{background:#fff;border-radius:14px;padding:1.6vh 1.4vw;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.pt{font-size:clamp(11px,.88vw,14px);font-weight:700;color:var(--dark);margin-bottom:.8vh;display:flex;align-items:center;gap:6px}
+.ps{font-size:clamp(10px,.82vw,13px);color:var(--g);line-height:1.8}
+.ps .a{color:var(--pink);font-weight:700;margin:0 2px}
 
-/* ===== SLIDE NUMBER ===== */
-#slide-num {
-  position: fixed; bottom: 16px; right: 24px;
-  font-size: 13px; font-weight: 700;
-  color: rgba(255,255,255,0.35);
-  z-index: 1000;
-  font-family: monospace; letter-spacing: 1px;
-}
+/* settle card */
+.scc{flex:1;border-radius:18px;padding:2vh 1.8vw}
+.scc1{background:var(--pink)}.scc2{background:rgba(255,255,255,.08)}.scc3{background:rgba(0,191,165,.22)}
+.scc-i{font-size:clamp(18px,1.5vw,24px);margin-bottom:.8vh}
+.scc-t{font-size:clamp(11px,.88vw,14px);font-weight:700;color:rgba(255,255,255,.8);margin-bottom:.6vh}
+.scc-b{font-size:clamp(10px,.82vw,13px);color:rgba(255,255,255,.75);line-height:1.6}
+.scc-b strong{color:#fff}
+.exsec{background:rgba(255,255,255,.06);border-radius:14px;padding:2vh 2vw;display:flex;gap:3vw}
+.ex-t{font-size:clamp(9px,.75vw,11px);font-weight:700;color:rgba(255,255,255,.4);margin-bottom:.8vh;letter-spacing:1px}
+.ex-b{font-size:clamp(10px,.82vw,13px);color:rgba(255,255,255,.72);line-height:1.7}
+.ex-b strong{color:var(--pl)}
 
-/* ===== NAV DOTS ===== */
-#nav-dots {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 8px; z-index: 1000;
-}
-.nav-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  border: none; cursor: pointer; padding: 0;
-  transition: background 0.2s, transform 0.2s;
-}
-.nav-dot.active { background: var(--pink); transform: scale(1.35); }
+/* flow */
+.flow{display:flex;flex-direction:column;gap:.8vh}
+.frow{display:flex;align-items:center;gap:.6vw}
+.fbox{flex:1;background:#fff;border-radius:9px;padding:.9vh .8vw;font-size:clamp(9px,.78vw,12px);font-weight:600;color:var(--dark);text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);line-height:1.4}
+.fbox.hl{background:var(--pink);color:#fff}
+.fbox.hl2{background:var(--teal);color:#fff}
+.farr{font-size:15px;color:var(--pink);font-weight:700;flex-shrink:0}
 
-/* ===== ARROW HINTS ===== */
-#arrow-hint {
-  position: fixed; bottom: 18px; left: 24px;
-  font-size: 12px; color: rgba(255,255,255,0.2);
-  z-index: 1000; letter-spacing: 0.5px;
-}
+/* end */
+#s18{background:linear-gradient(135deg,var(--pink) 0%,#FF4081 50%,var(--pu) 100%)}
+#s18 .si{align-items:center;justify-content:center;text-align:center}
+.etag{background:rgba(255,255,255,.2);border-radius:50px;padding:7px 20px;font-size:clamp(11px,.88vw,14px);font-weight:700;color:#fff;margin-bottom:2.5vh}
+.etitle{font-size:clamp(36px,4.8vw,64px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:1.8vh}
+.esub{font-size:clamp(13px,1.1vw,18px);color:rgba(255,255,255,.88);line-height:1.7;margin-bottom:3vh}
+.echips{display:flex;gap:1.2vw;justify-content:center;margin-bottom:3.5vh;flex-wrap:wrap}
+.ech{background:rgba(255,255,255,.2);border-radius:50px;padding:9px 20px;font-size:clamp(11px,.88vw,14px);font-weight:700;color:#fff}
+.elogo{font-size:clamp(11px,.88vw,14px);font-weight:800;color:rgba(255,255,255,.4)}
 
-/* ============================================================
-   SLIDE-SPECIFIC STYLES
-   ============================================================ */
+/* checklist */
+.cl{list-style:none;display:flex;flex-direction:column;gap:.8vh}
+.cl li{display:flex;gap:.8vw;align-items:flex-start;font-size:clamp(10px,.82vw,13px);color:var(--g);line-height:1.6}
+.cl li .num{width:22px;height:22px;border-radius:50%;background:var(--pink);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-/* ── S1: COVER ── */
-#s1 { background: linear-gradient(135deg, #FFF0F3 0%, #F5E6FF 100%); }
-#s1 .b1 { width:45vw; height:45vw; background:var(--pink-light); opacity:.22; top:-10vh; right:-8vw; }
-#s1 .b2 { width:28vw; height:28vw; background:#C8E6FF; opacity:.28; bottom:-8vh; left:8vw; }
-#s1 .b3 { width:18vw; height:18vw; background:var(--yellow); opacity:.18; bottom:10vh; right:18vw; }
-
-#s1 .s-inner { flex-direction:row; align-items:center; gap:6vw; }
-#s1 .left { flex:1; }
-#s1 .right { width:38vw; flex-shrink:0; display:flex; flex-direction:column; gap:1.5vh; }
-
-.cover-tag {
-  background: var(--pink); color: white;
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 7px 18px; border-radius: 50px;
-  font-size: clamp(11px,0.9vw,13px); font-weight: 700; margin-bottom: 2.5vh;
-}
-.cover-title {
-  font-size: clamp(32px,3.8vw,52px); font-weight: 900; color: var(--dark);
-  line-height: 1.15; margin-bottom: 1.5vh;
-}
-.cover-title .hl { color: var(--pink); }
-.cover-sub { font-size: clamp(13px,1.1vw,16px); color: var(--gray); line-height: 1.7; max-width: 400px; }
-.cta {
-  margin-top: 3vh;
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--pink); color: white;
-  padding: 13px 30px; border-radius: 50px;
-  font-size: clamp(13px,1vw,15px); font-weight: 800;
-  box-shadow: 0 8px 24px rgba(255,107,138,.35);
-  width: fit-content;
-}
-
-.stat-row { display:flex; gap:1.5vw; }
-.stat-card {
-  flex:1; background:white; border-radius:20px;
-  padding:2.2vh 1.5vw;
-  box-shadow:0 4px 24px rgba(255,107,138,.1);
-}
-.stat-icon { font-size: clamp(18px,1.6vw,24px); margin-bottom:0.8vh; }
-.stat-big  { font-size:clamp(28px,3vw,44px); font-weight:900; color:var(--dark); line-height:1; }
-.stat-unit { font-size:clamp(14px,1.4vw,20px); font-weight:700; }
-.stat-label{ font-size:clamp(10px,0.8vw,13px); color:var(--gray); margin-top:4px; font-weight:600; }
-
-/* ── S2: 背景 ── */
-#s2 { background: white; }
-#s2 .b1 { width:38vw; height:38vw; background:var(--pink-pale); opacity:.7; top:-10vh; right:-6vw; }
-#s2 .s-inner { flex-direction:row; gap:5vw; align-items:center; }
-#s2 .left  { flex:1; display:flex; flex-direction:column; justify-content:center; }
-#s2 .right { width:44vw; display:flex; flex-direction:column; gap:1.5vh; justify-content:center; }
-.change-item {
-  display:flex; gap:1.2vw; align-items:flex-start;
-  background:var(--bg); border-radius:16px; padding:1.8vh 1.5vw;
-}
-.change-num {
-  width:32px; height:32px; border-radius:50%;
-  background:var(--pink); color:white;
-  font-size:14px; font-weight:800;
-  display:flex; align-items:center; justify-content:center; flex-shrink:0;
-}
-
-/* ── S3: 节奏 ── */
-#s3 { background: var(--dark); }
-#s3 .eyebrow { color:var(--pink-light); }
-#s3 .h2 { color:white; margin-bottom:3vh; }
-#s3 .s-inner { flex-direction:column; }
-.timeline { display:flex; gap:2vw; margin-bottom:2.5vh; }
-.tl-item { flex:1; border-radius:20px; padding:2.5vh 2vw; position:relative; overflow:hidden; }
-.tl-item.done   { background:rgba(255,255,255,.08); }
-.tl-item.active { background:var(--pink); }
-.tl-item.future { background:rgba(255,107,138,.2); }
-.tl-period { font-size:clamp(10px,.8vw,12px); font-weight:700; color:rgba(255,255,255,.5); margin-bottom:.6vh; letter-spacing:1px; }
-.tl-item.active .tl-period { color:rgba(255,255,255,.8); }
-.tl-name   { font-size:clamp(15px,1.4vw,20px); font-weight:800; color:white; margin-bottom:.4vh; }
-.tl-status { font-size:clamp(11px,.85vw,13px); color:rgba(255,255,255,.6); }
-.tl-item.active .tl-status { color:rgba(255,255,255,.9); }
-.tl-badge {
-  position:absolute; top:14px; right:14px;
-  background:rgba(255,255,255,.2); border-radius:50px;
-  padding:3px 10px; font-size:11px; font-weight:700; color:white;
-}
-.discount-row { display:flex; gap:2vw; }
-.discount-card { flex:1; border-radius:20px; padding:2.5vh 2vw; display:flex; flex-direction:column; gap:.8vh; }
-.dc1 { background:var(--pink); }
-.dc2 { background:rgba(255,255,255,.1); }
-.dc-label { font-size:clamp(11px,.85vw,13px); font-weight:700; color:rgba(255,255,255,.7); }
-.dc-val   { font-size:clamp(32px,3.5vw,48px); font-weight:900; color:white; line-height:1; }
-.dc-sub   { font-size:clamp(11px,.85vw,13px); color:rgba(255,255,255,.8); }
-.dc-chip  { display:inline-block; background:rgba(255,255,255,.2); border-radius:50px; padding:3px 12px; font-size:11px; font-weight:700; color:white; width:fit-content; }
-.example-box {
-  background:rgba(255,255,255,.06); border-radius:14px;
-  padding:1.8vh 1.5vw; font-size:clamp(11px,.85vw,13px); color:rgba(255,255,255,.6);
-  line-height:1.7; flex:1;
-}
-.example-box strong { color:rgba(255,255,255,.9); }
-
-/* ── S4: 商家 ── */
-#s4 { background:var(--bg); }
-#s4 .b1 { width:30vw; height:30vw; background:var(--purple-pale); opacity:.8; bottom:-6vh; right:-4vw; }
-#s4 .s-inner { flex-direction:row; gap:5vw; align-items:center; }
-#s4 .left  { flex:1; display:flex; flex-direction:column; justify-content:center; }
-#s4 .right { width:48vw; display:flex; flex-direction:column; justify-content:center; gap:1.2vh; }
-.merchant-card {
-  background:white; border-radius:16px; padding:1.6vh 1.5vw;
-  display:flex; gap:1.2vw; align-items:flex-start;
-  box-shadow:0 2px 12px rgba(0,0,0,.05);
-}
-.merchant-icon  { font-size:clamp(20px,1.8vw,28px); flex-shrink:0; }
-.merchant-title { font-size:clamp(13px,1vw,15px); font-weight:700; color:var(--dark); margin-bottom:3px; }
-.merchant-desc  { font-size:clamp(11px,.85vw,13px); color:var(--gray); line-height:1.55; }
-
-/* ── S5: 商品 ── */
-#s5 { background:white; }
-#s5 .b1 { width:28vw; height:28vw; background:var(--teal-light); opacity:.3; top:-6vh; right:0; }
-#s5 .s-inner { flex-direction:row; gap:5vw; align-items:center; }
-#s5 .left  { width:38vw; flex-shrink:0; display:flex; flex-direction:column; justify-content:center; }
-#s5 .right { flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.2vh; }
-.req-item {
-  display:flex; gap:1vw; align-items:flex-start;
-  padding:1.3vh 1.2vw; border-radius:14px; background:var(--bg);
-}
-.req-dot { width:10px; height:10px; border-radius:50%; background:var(--pink); flex-shrink:0; margin-top:4px; }
-.exclu-box { background:#FFF3E0; border-radius:14px; padding:1.4vh 1.2vw; border-left:4px solid #FF9800; }
-.exclu-title { font-size:clamp(11px,.85vw,13px); font-weight:700; color:#E65100; margin-bottom:5px; }
-.exclu-text  { font-size:clamp(10px,.8vw,13px);  color:#BF360C; line-height:1.6; }
-
-/* ── S6: 发券 ── */
-#s6 { background:var(--bg); }
-#s6 .s-inner { flex-direction:column; }
-#s6 .top { display:flex; gap:2vw; margin-bottom:2vh; }
-#s6 .bot { display:flex; gap:2vw; flex:1; }
-.voucher-stat {
-  flex:1; background:white; border-radius:20px; padding:2.5vh 2vw;
-  box-shadow:0 4px 20px rgba(0,0,0,.06);
-  display:flex; flex-direction:column; gap:.6vh;
-}
-.vs-icon  { font-size:clamp(20px,1.8vw,28px); margin-bottom:.4vh; }
-.vs-val   { font-size:clamp(22px,2.2vw,34px); font-weight:900; color:var(--dark); line-height:1; }
-.vs-label { font-size:clamp(10px,.8vw,13px); color:var(--gray); font-weight:600; }
-.voucher-info {
-  flex:1; background:white; border-radius:20px; padding:2vh 1.8vw;
-  box-shadow:0 4px 20px rgba(0,0,0,.06);
-}
-.vi-title { font-size:clamp(12px,.9vw,15px); font-weight:700; color:var(--dark); margin-bottom:1vh; }
-
-/* ── S7: 比价 ── */
-#s7 { background:white; }
-#s7 .b1 { width:28vw; height:28vw; background:var(--teal-light); opacity:.3; top:-6vh; right:0; }
-#s7 .s-inner { flex-direction:row; gap:5vw; align-items:center; }
-#s7 .left  { flex:1; display:flex; flex-direction:column; justify-content:center; }
-#s7 .right { width:46vw; flex-shrink:0; display:flex; flex-direction:column; justify-content:center; gap:1.5vh; }
-.compare-table-wrap { border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,.07); }
-.flow-wrap { background:var(--bg); border-radius:16px; padding:2vh 1.8vw; }
-.flow-title { font-size:clamp(11px,.85vw,13px); font-weight:700; color:var(--gray); margin-bottom:1.2vh; }
-.flow2 { display:flex; flex-direction:column; gap:1vh; }
-.flow2-row { display:flex; align-items:center; gap:.8vw; }
-.flow2-box {
-  flex:1; background:white; border-radius:10px;
-  padding:1vh 1vw; font-size:clamp(10px,.8vw,12px); font-weight:600; color:var(--dark);
-  text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05); line-height:1.4;
-}
-.flow2-box.hl { background:var(--pink); color:white; }
-.flow2-arrow { font-size:16px; color:var(--pink); font-weight:700; flex-shrink:0; }
-
-/* ── S8: 结算 ── */
-#s8 { background:var(--dark); }
-#s8 .eyebrow { color:var(--pink-light); }
-#s8 .h2 { color:white; margin-bottom:3vh; }
-#s8 .s-inner { flex-direction:column; }
-#s8 .cards-row { display:flex; gap:2vw; margin-bottom:2vh; }
-.settle-card { flex:1; border-radius:20px; padding:2.5vh 2vw; }
-.sc1 { background:var(--pink); }
-.sc2 { background:rgba(255,255,255,.08); }
-.sc3 { background:rgba(0,191,165,.25); }
-.sc-icon  { font-size:clamp(20px,1.8vw,28px); margin-bottom:1vh; }
-.sc-title { font-size:clamp(12px,.9vw,14px); font-weight:700; color:rgba(255,255,255,.8); margin-bottom:.8vh; }
-.sc-body  { font-size:clamp(11px,.85vw,13px); color:rgba(255,255,255,.7); line-height:1.65; }
-.sc-body strong { color:white; }
-.example-section {
-  background:rgba(255,255,255,.06); border-radius:16px;
-  padding:2.2vh 2.2vw; display:flex; gap:4vw;
-}
-.ex-title { font-size:clamp(10px,.8vw,12px); font-weight:700; color:rgba(255,255,255,.45); margin-bottom:1vh; letter-spacing:1px; }
-.ex-body  { font-size:clamp(11px,.85vw,13px); color:rgba(255,255,255,.7); line-height:1.7; }
-.ex-body strong { color:var(--pink-light); }
-
-/* ── S9: 撤销 ── */
-#s9 { background:var(--bg); }
-#s9 .s-inner { flex-direction:row; gap:5vw; align-items:center; }
-#s9 .left  { flex:1; display:flex; flex-direction:column; justify-content:center; }
-#s9 .right { width:50vw; flex-shrink:0; display:flex; flex-direction:column; justify-content:center; gap:1.4vh; }
-.path-card { background:white; border-radius:16px; padding:2vh 1.8vw; box-shadow:0 2px 12px rgba(0,0,0,.06); }
-.path-title { font-size:clamp(12px,.9vw,14px); font-weight:700; color:var(--dark); margin-bottom:1vh; display:flex; align-items:center; gap:8px; }
-.path-steps { font-size:clamp(11px,.85vw,13px); color:var(--gray); line-height:1.9; }
-.path-steps .sep { color:var(--pink); font-weight:700; margin:0 3px; }
-.faq-item { display:flex; gap:1.2vw; padding:1.3vh 1.5vw; background:white; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-.faq-q { font-size:clamp(12px,.9vw,14px); font-weight:700; color:var(--dark); margin-bottom:3px; }
-.faq-a { font-size:clamp(11px,.85vw,13px); color:var(--gray); line-height:1.55; }
-
-/* ── S10: 结尾 ── */
-#s10 { background:linear-gradient(135deg, var(--pink) 0%, #FF4081 50%, var(--purple) 100%); }
-#s10 .s-inner { align-items:center; justify-content:center; text-align:center; }
-.end-tag {
-  background:rgba(255,255,255,.2); border-radius:50px;
-  padding:8px 22px; font-size:clamp(12px,.9vw,14px); font-weight:700; color:white;
-  margin-bottom:3vh;
-}
-.end-title { font-size:clamp(42px,5.5vw,72px); font-weight:900; color:white; line-height:1.15; margin-bottom:2vh; }
-.end-sub   { font-size:clamp(14px,1.3vw,20px); color:rgba(255,255,255,.88); line-height:1.7; margin-bottom:4vh; }
-.end-chips { display:flex; gap:1.5vw; justify-content:center; margin-bottom:5vh; }
-.end-chip  {
-  background:rgba(255,255,255,.2); border-radius:50px;
-  padding:10px 22px; font-size:clamp(12px,.9vw,15px); font-weight:700; color:white;
-}
-.end-logo  { font-size:clamp(12px,.9vw,15px); font-weight:800; color:rgba(255,255,255,.45); }
+/* voucher stats */
+.vs{flex:1;background:#fff;border-radius:18px;padding:2vh 1.6vw;box-shadow:0 3px 16px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:.5vh}
+.vs-i{font-size:clamp(18px,1.5vw,24px);margin-bottom:.4vh}
+.vs-v{font-size:clamp(18px,1.8vw,26px);font-weight:900;color:var(--dark);line-height:1}
+.vs-l{font-size:clamp(9px,.75vw,12px);color:var(--g);font-weight:600}
+.vi{flex:1;background:#fff;border-radius:18px;padding:1.8vh 1.5vw;box-shadow:0 3px 16px rgba(0,0,0,.06)}
+.vi-t{font-size:clamp(11px,.88vw,14px);font-weight:700;color:var(--dark);margin-bottom:.8vh}
+.ul{list-style:none}.ul li{font-size:clamp(10px,.82vw,13px);color:var(--g);line-height:1.65;padding-left:12px;position:relative}
+.ul li::before{content:'·';position:absolute;left:0;color:var(--pink);font-weight:900;font-size:15px}
 </style>
 </head>
 <body>
-
 <div id="deck">
 
-  <!-- S1: COVER -->
-  <div class="slide active" id="s1">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-    <div class="s-inner row" style="align-items:center; gap:6vw;">
-      <div class="left">
-        <div class="cover-tag">🎉 小红书商家中心 · 2026 周年庆</div>
-        <div class="cover-title">
-          周末促 &amp; <span class="hl">周年庆</span><br>
-          商家混资券活动
-        </div>
-        <div class="cover-sub">
-          平台与商家联合补贴，助力商品以更低折扣触达用户<br>
-          提升成交转化 · 618大促重磅登场
-        </div>
-        <div class="cta">立即了解活动规则 →</div>
+<!-- S1: 封面 -->
+<div class="slide active" id="s1">
+  <div class="blob" style="width:40vw;height:40vw;background:var(--pl);opacity:.2;top:-10vh;right:-6vw"></div>
+  <div class="blob" style="width:22vw;height:22vw;background:#C8E6FF;opacity:.3;bottom:-6vh;left:6vw"></div>
+  <div class="si row" style="align-items:center;gap:5vw">
+    <div style="flex:1">
+      <div class="ctag">🎉 小红书商家中心 · 2026 周年庆</div>
+      <div class="ctitle">周末促 &amp; <span class="hl">周年庆</span><br>商家混资券活动</div>
+      <div class="body" style="max-width:380px">平台与商家联合补贴，助力商品以更低折扣触达用户<br>提升成交转化 · 618大促重磅登场</div>
+      <div class="cta">立即了解活动规则 →</div>
+    </div>
+    <div style="width:36vw;flex-shrink:0;display:flex;flex-direction:column;gap:1.2vh">
+      <div class="srow">
+        <div class="sc" style="border-top:4px solid var(--pink)"><div class="sc-i">🎁</div><div class="sc-v">8<span class="sc-u">折</span></div><div class="sc-l">最低折扣力度</div></div>
+        <div class="sc" style="border-top:4px solid var(--teal)"><div class="sc-i">💰</div><div class="sc-v">50<span class="sc-u">%</span></div><div class="sc-l">平台出资占比</div></div>
       </div>
-      <div class="right">
-        <div class="stat-row">
-          <div class="stat-card" style="border-top:4px solid var(--pink);">
-            <div class="stat-icon">🎁</div>
-            <div class="stat-big">8<span class="stat-unit">折</span></div>
-            <div class="stat-label">最低折扣力度</div>
-          </div>
-          <div class="stat-card" style="border-top:4px solid var(--teal);">
-            <div class="stat-icon">💰</div>
-            <div class="stat-big">50<span class="stat-unit">%</span></div>
-            <div class="stat-label">平台出资占比</div>
-          </div>
-        </div>
-        <div class="stat-row">
-          <div class="stat-card" style="border-top:4px solid var(--purple);">
-            <div class="stat-icon">📅</div>
-            <div class="stat-big" style="font-size:clamp(20px,2vw,30px);">5/22<span style="font-size:.6em;">—</span>6/18</div>
-            <div class="stat-label">618大促时间</div>
-          </div>
-          <div class="stat-card" style="border-top:4px solid var(--yellow);">
-            <div class="stat-icon">🎊</div>
-            <div class="stat-big">-1000<span style="font-size:.5em;font-weight:600;">元</span></div>
-            <div class="stat-label">最高优惠金额</div>
-          </div>
-        </div>
+      <div class="srow">
+        <div class="sc" style="border-top:4px solid var(--pu)"><div class="sc-i">📅</div><div class="sc-v" style="font-size:clamp(16px,1.6vw,24px)">5/22—6/18</div><div class="sc-l">618大促时间</div></div>
+        <div class="sc" style="border-top:4px solid var(--y)"><div class="sc-i">🎊</div><div class="sc-v" style="font-size:clamp(18px,1.8vw,26px)">-1000<span style="font-size:.5em;font-weight:600">元</span></div><div class="sc-l">最高优惠金额</div></div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S2: 背景 -->
-  <div class="slide" id="s2">
-    <div class="blob b1"></div>
-    <div class="s-inner row" style="gap:5vw; align-items:center;">
-      <div class="left">
-        <div class="eyebrow">活动背景</div>
-        <div class="h2">平台持续发力<br>混资活动正当时</div>
-        <div class="divider"></div>
-        <div class="body" style="max-width:360px;">
-          核心机制：<strong>平台与商家联合补贴</strong>，助力商品以更低折扣触达用户，提升成交转化。后续将开展多期商家混资券活动，逐步扩大商家覆盖规模。
-        </div>
-        <div style="margin-top:2.5vh; display:flex; gap:1vw; flex-wrap:wrap;">
-          <span class="pill pink">系统圈商圈品</span>
-          <span class="pill teal">站外比价保障</span>
-          <span class="pill purple">支持锁价降价</span>
-        </div>
+<!-- S2: 活动背景 -->
+<div class="slide" id="s2">
+  <div class="blob" style="width:32vw;height:32vw;background:var(--pp);opacity:.8;top:-8vh;right:-4vw"></div>
+  <div class="si row" style="gap:5vw;align-items:center">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+      <div class="ey">活动背景</div>
+      <div class="h2">平台持续发力<br>混资活动正当时</div>
+      <div class="div"></div>
+      <div class="body" style="max-width:360px;margin-bottom:2vh">核心机制：<strong>平台与商家联合补贴</strong>，助力商品以更低折扣触达用户，提升成交转化。后续将开展多期商家混资券活动，逐步扩大商家覆盖规模，并于周年庆（5/22-6/18）期间推出618大促商家混资券活动。</div>
+      <div style="display:flex;gap:.8vw;flex-wrap:wrap"><span class="pill p">系统圈商圈品</span><span class="pill t">站外比价保障</span><span class="pill pu">支持锁价降价</span></div>
+    </div>
+    <div style="width:44vw;display:flex;flex-direction:column;gap:1.2vh;justify-content:center">
+      <div style="font-size:clamp(10px,.8vw,12px);font-weight:700;color:var(--g);margin-bottom:.5vh;letter-spacing:2px;text-transform:uppercase">vs 上一期 · 主要变化</div>
+      <div style="display:flex;gap:1vw;align-items:flex-start;background:var(--bg);border-radius:14px;padding:1.4vh 1.2vw">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--pink);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+        <div><div style="font-size:clamp(12px,.9vw,14px);font-weight:700;color:var(--dark);margin-bottom:2px">招商逻辑升级</div><div class="sm">从人工定向邀约 → 系统圈商圈品，覆盖更广更精准</div></div>
       </div>
-      <div class="right">
-        <div style="font-size:clamp(10px,.8vw,13px); font-weight:700; color:var(--gray); margin-bottom:1.2vh; letter-spacing:2px; text-transform:uppercase;">vs 上一期 · 主要变化</div>
-        <div class="change-item">
-          <div class="change-num">1</div>
-          <div>
-            <div style="font-size:clamp(13px,1vw,15px); font-weight:700; color:var(--dark); margin-bottom:3px;">招商逻辑升级</div>
-            <div class="body-sm">从人工定向邀约 → 系统圈商圈品，覆盖更广更精准</div>
-          </div>
-        </div>
-        <div class="change-item">
-          <div class="change-num">2</div>
-          <div>
-            <div style="font-size:clamp(13px,1vw,15px); font-weight:700; color:var(--dark); margin-bottom:3px;">必须通过站外比价</div>
-            <div class="body-sm">报名后需通过比价审核才能生效，确保折扣真实有竞争力</div>
-          </div>
-        </div>
-        <div class="change-item">
-          <div class="change-num">3</div>
-          <div>
-            <div style="font-size:clamp(13px,1vw,15px); font-weight:700; color:var(--dark); margin-bottom:3px;">新增机制保障体验</div>
-            <div class="body-sm">支持锁价降价；直播中不允许退出活动，保障用户体验</div>
-          </div>
-        </div>
+      <div style="display:flex;gap:1vw;align-items:flex-start;background:var(--bg);border-radius:14px;padding:1.4vh 1.2vw">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--pink);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+        <div><div style="font-size:clamp(12px,.9vw,14px);font-weight:700;color:var(--dark);margin-bottom:2px">必须通过站外比价</div><div class="sm">报名后需通过比价审核才能生效，确保折扣真实有竞争力</div></div>
+      </div>
+      <div style="display:flex;gap:1vw;align-items:flex-start;background:var(--bg);border-radius:14px;padding:1.4vh 1.2vw">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--pink);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+        <div><div style="font-size:clamp(12px,.9vw,14px);font-weight:700;color:var(--dark);margin-bottom:2px">新增机制保障体验</div><div class="sm">支持锁价降价；直播中不允许退出活动，保障用户体验</div></div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S3: 节奏 -->
-  <div class="slide" id="s3">
-    <div class="s-inner" style="flex-direction:column;">
-      <div class="eyebrow">活动节奏 &amp; 折扣力度</div>
-      <div class="h2" style="color:white; margin-bottom:3vh;">三期活动 · 逐步升级</div>
-      <div class="timeline">
-        <div class="tl-item done">
-          <div class="tl-period">0424 — 0430</div>
-          <div class="tl-name">第一期</div>
-          <div class="tl-status">已结束</div>
-          <div class="tl-badge">已完成</div>
-        </div>
-        <div class="tl-item active">
-          <div class="tl-period">0508 — 0517</div>
-          <div class="tl-name">第二期</div>
-          <div class="tl-status">进行中 · 8折 / 8.8折</div>
-          <div class="tl-badge">🔥 进行中</div>
-        </div>
-        <div class="tl-item future">
-          <div class="tl-period">0522 — 0619</div>
-          <div class="tl-name">第三期 · 618周年庆</div>
-          <div class="tl-status">即将开始 · 8折 / 8.8折</div>
-          <div class="tl-badge">即将开启</div>
-        </div>
-      </div>
-      <div class="discount-row">
-        <div class="discount-card dc1">
-          <div class="dc-label">折扣档位 A</div>
-          <div class="dc-val">8折</div>
-          <div class="dc-sub">商家 + 平台各出资 50%</div>
-          <div class="dc-chip">最高优惠 1000 元</div>
-        </div>
-        <div class="discount-card dc2">
-          <div class="dc-label">折扣档位 B</div>
-          <div class="dc-val">8.8折</div>
-          <div class="dc-sub">商家 + 平台各出资 50%</div>
-          <div class="dc-chip">最高优惠 600 元</div>
-        </div>
-        <div class="example-box">
-          <div style="color:rgba(255,255,255,.85); font-weight:700; margin-bottom:.8vh; font-size:clamp(11px,.85vw,13px);">💡 举例说明</div>
-          <strong>1000元商品 · 8折活动</strong><br>
-          用户到手价 800 元，商家到手价 900 元<br><br>
-          <strong>10000元商品 · 8折（最高减1000）</strong><br>
-          用户到手价 9000 元，商家到手价 9500 元
-        </div>
+<!-- S3: 节奏 -->
+<div class="slide dark-slide" id="s3">
+  <div class="si">
+    <div class="ey">活动节奏 &amp; 折扣力度</div>
+    <div class="h2" style="margin-bottom:2.5vh">三期活动 · 逐步升级</div>
+    <div class="tl">
+      <div class="tl-i done"><div class="tl-p">0424 — 0430</div><div class="tl-n">第一期</div><div class="tl-s">已结束</div><div class="tl-b">已完成</div></div>
+      <div class="tl-i now"><div class="tl-p">0508 — 0517</div><div class="tl-n">第二期</div><div class="tl-s">进行中 · 8折 / 8.8折</div><div class="tl-b">🔥 进行中</div></div>
+      <div class="tl-i soon"><div class="tl-p">0522 — 0619 · 618周年庆</div><div class="tl-n">第三期</div><div class="tl-s">即将开始 · 8折 / 8.8折</div><div class="tl-b">即将开启</div></div>
+    </div>
+    <div class="drow" style="flex:1">
+      <div class="dc dc1"><div class="dl">折扣档位 A</div><div class="dv">8折</div><div class="ds">商家 + 平台各出资 50%</div><div class="dch">最高优惠 1000 元</div></div>
+      <div class="dc dc2"><div class="dl">折扣档位 B</div><div class="dv">8.8折</div><div class="ds">商家 + 平台各出资 50%</div><div class="dch">最高优惠 600 元</div></div>
+      <div class="exbox" style="flex:1.2">
+        <div style="color:rgba(255,255,255,.85);font-weight:700;margin-bottom:.6vh;font-size:clamp(11px,.85vw,13px)">💡 举例说明</div>
+        <strong>1000元商品 · 8折活动</strong><br>用户到手 800元，商家到手 900元<br><br>
+        <strong>10000元商品 · 8折（最高减1000）</strong><br>用户到手 9000元，商家到手 9500元
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S4: 商家 -->
-  <div class="slide" id="s4">
-    <div class="blob b1"></div>
-    <div class="s-inner row" style="gap:5vw; align-items:center;">
-      <div class="left">
-        <div class="eyebrow">报名资格</div>
-        <div class="h2">哪些商家<br>可以报名？</div>
-        <div class="divider"></div>
-        <div class="body" style="margin-bottom:2vh; max-width:340px;">
-          满足以下任一商家等级条件，且非禁用券、非风控商家即可报名。
-        </div>
-        <div class="warn-box">
-          <strong>⚠ 注意：</strong>同一周期内，商家只能选<strong>一个折扣力度</strong>参与；矩阵店铺必须选<strong>同折扣</strong>活动。
-        </div>
+<!-- S4: 可报名商家 -->
+<div class="slide" id="s4">
+  <div class="blob" style="width:26vw;height:26vw;background:var(--pup);opacity:.8;bottom:-4vh;right:-3vw"></div>
+  <div class="si row" style="gap:4vw;align-items:center">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+      <div class="ey">报名资格</div>
+      <div class="h2">哪些商家<br>可以报名？</div>
+      <div class="div"></div>
+      <div class="body" style="max-width:320px;margin-bottom:1.5vh">满足以下任一商家等级条件，且非禁用券、非风控商家，基础门槛对齐大促即可报名。</div>
+      <div class="warn"><strong>⚠ 注意：</strong>同一周期内，商家<strong>只能选一个折扣力度</strong>参与；矩阵店铺必须选<strong>同折扣</strong>活动。</div>
+    </div>
+    <div style="width:46vw;display:flex;flex-direction:column;gap:1vh;justify-content:center">
+      <div class="mc"><div class="mc-i">⭐</div><div><div class="mc-t">L1-L3 商家 或 B5+ 商家</div><div class="mc-d">按近30天商家L等级计算，历史满足过的不会被剔除</div></div></div>
+      <div class="mc"><div class="mc-i">🚀</div><div><div class="mc-t">8000+ 扶持商家</div><div class="mc-d">B4 潜力陪跑商家名单</div></div></div>
+      <div class="mc"><div class="mc-i">🏆</div><div><div class="mc-t">200 个标杆商家</div><div class="mc-d">66周年庆已开入口名单内的商家</div></div></div>
+      <div class="mc"><div class="mc-i">📋</div><div><div class="mc-t">矩阵店 / 白名单商家</div><div class="mc-d">以上商家的矩阵店；白名单商家（矩阵店不会自动开通，需一起提交申请）</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: 商家FAQ -->
+<div class="slide" id="s5" style="background:#fff">
+  <div class="blob" style="width:22vw;height:22vw;background:var(--pp);opacity:.6;top:-4vh;right:0"></div>
+  <div class="si">
+    <div class="ey">商家报名</div>
+    <div class="h2" style="margin-bottom:2vh">商家报名常见问题</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2vh 1.5vw;flex:1">
+      <div class="qa">
+        <div class="qa-q">店铺没有入口，可以申请加白吗？</div>
+        <div class="qa-a"><strong>矩阵店：</strong>行业am通过"矩阵店组确认&amp;挂接GTM"流程提报。<br><strong>白名单：</strong>am提报各部门poc → poc大促双日会前L2 review → poc提报产品 → 产品t+1审核加白。<br><strong>加白标准：</strong>①站外头部新商：需截图证明月销100万+；②新开播潜力B5-：近30天40万+gmv且5月新开播；③高增速高潜：近30天40万+gmv且环比+50%</div>
       </div>
-      <div class="right">
-        <div class="merchant-card">
-          <div class="merchant-icon">⭐</div>
-          <div>
-            <div class="merchant-title">L等级商家</div>
-            <div class="merchant-desc">L1-L3 商家，或 B5+ 商家（按近30天等级，历史满足过不被剔除）</div>
-          </div>
-        </div>
-        <div class="merchant-card">
-          <div class="merchant-icon">🚀</div>
-          <div>
-            <div class="merchant-title">扶持商家</div>
-            <div class="merchant-desc">8000+ 扶持商家（B4 潜力陪跑商家名单）</div>
-          </div>
-        </div>
-        <div class="merchant-card">
-          <div class="merchant-icon">🏆</div>
-          <div>
-            <div class="merchant-title">标杆商家</div>
-            <div class="merchant-desc">200 个标杆商家（66周年庆已开入口名单）</div>
-          </div>
-        </div>
-        <div class="merchant-card">
-          <div class="merchant-icon">📋</div>
-          <div>
-            <div class="merchant-title">矩阵店 / 白名单商家</div>
-            <div class="merchant-desc">以上商家的矩阵店；白名单商家（矩阵店需一起提交申请）</div>
-          </div>
-        </div>
+      <div class="qa t">
+        <div class="qa-q">同一商家可以同时报 8折 和 8.8折 吗？</div>
+        <div class="qa-a">不可以。同一周期的混资活动，商家<strong>只能选一个折扣力度</strong>。如需变更已选档位，须先撤销当前报名下的所有商品，再重新提交报名申请。</div>
+      </div>
+      <div class="qa pu">
+        <div class="qa-q">矩阵店铺报名有什么特殊要求？</div>
+        <div class="qa-a">矩阵店铺<strong>必须选同折扣活动</strong>，不能有的店选8折、有的店选8.8折。</div>
+      </div>
+      <div class="qa y">
+        <div class="qa-q">报错折扣力度了怎么办？</div>
+        <div class="qa-a">①先把该折扣力度下所有商品撤销活动（<strong>注意：直播中不允许撤销，需等下播后再操作</strong>）；②重新报名正确折扣力度的活动。</div>
+      </div>
+      <div class="qa" style="grid-column:1/-1">
+        <div class="qa-q">店铺在表格里，但商家反馈没有入口？</div>
+        <div class="qa-a">通过苍穹/鹰眼，搜索商家id，附身查看商家后台。如果还是没有，在【商家混资行业问题反馈】表格中反馈，线上紧急问题每天小时级清理。</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S5: 商品 -->
-  <div class="slide" id="s5">
-    <div class="blob b1"></div>
-    <div class="s-inner row" style="gap:5vw; align-items:center;">
-      <div class="left">
-        <div class="eyebrow">商品报名</div>
-        <div class="h2">哪些商品<br>可以参与？</div>
-        <div class="divider"></div>
-        <div class="body" style="margin-bottom:1.8vh; max-width:320px;">商品需同时满足价格、数量、销量三大基础要求。</div>
-        <div class="exclu-box">
-          <div class="exclu-title">🚫 以下商品不可报名</div>
-          <div class="exclu-text">买手混资券商品 · 宠粉清单品及其渠道品/主品 · 平台券不可用商品 · 风控商品</div>
-        </div>
-        <div style="margin-top:1.5vh; background:var(--yellow-pale); border-radius:12px; padding:1.2vh 1.2vw; font-size:clamp(11px,.85vw,13px); color:#7B6000; font-weight:600; border-left:3px solid var(--yellow);">
-          ⚠ 直播中不允许撤销；锁价只降不涨；不允许新增 SKU
+<!-- S6: 报名商品要求 -->
+<div class="slide" id="s6">
+  <div class="blob" style="width:24vw;height:24vw;background:var(--tl);opacity:.3;top:-5vh;right:0"></div>
+  <div class="si row" style="gap:4vw;align-items:center">
+    <div style="width:36vw;flex-shrink:0;display:flex;flex-direction:column;justify-content:center">
+      <div class="ey">商品报名</div>
+      <div class="h2">哪些商品<br>可以参与？</div>
+      <div class="div"></div>
+      <div style="background:#FFF3E0;border-radius:12px;padding:1.2vh 1.2vw;border-left:4px solid #FF9800;margin-bottom:1.2vh">
+        <div style="font-size:clamp(10px,.82vw,13px);font-weight:700;color:#E65100;margin-bottom:4px">🚫 以下商品不可报名</div>
+        <div style="font-size:clamp(9px,.78vw,12px);color:#BF360C;line-height:1.6">买手混资券商品 · 宠粉清单品及其渠道品/主品 · 平台券不可用商品 · 风控品</div>
+      </div>
+      <div class="warn" style="font-size:clamp(10px,.82vw,13px)">⚠ 直播中不可撤销活动；锁价只降不涨；不允许新增SKU</div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:1vh;justify-content:center">
+      <div class="ri"><div class="rdot" style="background:var(--pink)"></div><div><div style="font-size:clamp(11px,.88vw,14px);font-weight:700;color:var(--dark);margin-bottom:2px">价格要求</div><div class="sm">所有SKU普惠价≥50元；补贴前后价格均不高于站外；活动期间不高于30天最低价；不高于渠道品/主品价格</div></div></div>
+      <div class="ri"><div class="rdot" style="background:var(--teal)"></div><div><div style="font-size:clamp(11px,.88vw,14px);font-weight:700;color:var(--dark);margin-bottom:2px">数量要求</div><div class="sm">建议至少报名 <strong>10个以上</strong>商品；直播间混资商品数≥5个时才发券</div></div></div>
+      <div class="ri"><div class="rdot" style="background:var(--pu)"></div><div><div style="font-size:clamp(11px,.88vw,14px);font-weight:700;color:var(--dark);margin-bottom:2px">销量要求</div><div class="sm">30天内新品或有动销商品</div></div></div>
+      <div class="ri"><div class="rdot" style="background:var(--y)"></div><div><div style="font-size:clamp(11px,.88vw,14px);font-weight:700;color:var(--dark);margin-bottom:2px">大促期间额外要求</div><div class="sm">item下所有SKU均需报名85折直降活动（或为无促销有氛围商品）</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S7: 商品FAQ① -->
+<div class="slide" id="s7" style="background:#fff">
+  <div class="si">
+    <div class="ey">商品报名</div>
+    <div class="h2" style="margin-bottom:2vh">商品报名常见问题（一）</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2vh 1.5vw;flex:1">
+      <div class="qa" style="grid-row:span 2">
+        <div class="qa-q">渠道品/宠粉清单品/买手混资品可以报名吗？</div>
+        <div class="qa-a">
+          <strong>【报名限制】</strong><br>
+          · 宠粉清单的渠道品item、主品和其他渠道品：<strong>不允许报名</strong>混资品类券活动<br>
+          · 买手混资券（直播福利券）商品：<strong>不允许报名</strong>，但其兄弟姐妹品<strong>可以报名</strong><br>
+          · 其他渠道品：可报名，但同商品的渠道品和主品都报名时，活动期间普惠价需拉齐，否则高价的那个会报名不通过<br><br>
+          <strong>【佣金计算】</strong>佣金按商家实收价格计算<br>
+          例：渠道品100元，佣金率20%，混资8折后80元，商家出资10元，实收90元，佣金=90×20%=18元
         </div>
       </div>
-      <div class="right">
-        <div class="req-item">
-          <div class="req-dot" style="background:var(--pink);"></div>
-          <div>
-            <div style="font-size:clamp(12px,.9vw,14px); font-weight:700; color:var(--dark); margin-bottom:2px;">价格要求</div>
-            <div class="body-sm">所有SKU普惠价 ≥ 50元；补贴前后均不高于站外；活动期间不高于30天最低价；不高于渠道品/主品价格</div>
-          </div>
-        </div>
-        <div class="req-item">
-          <div class="req-dot" style="background:var(--teal);"></div>
-          <div>
-            <div style="font-size:clamp(12px,.9vw,14px); font-weight:700; color:var(--dark); margin-bottom:2px;">数量要求</div>
-            <div class="body-sm">建议至少报名 <strong>10个以上</strong>商品；直播间混资商品数 ≥ 5 个才发券</div>
-          </div>
-        </div>
-        <div class="req-item">
-          <div class="req-dot" style="background:var(--purple);"></div>
-          <div>
-            <div style="font-size:clamp(12px,.9vw,14px); font-weight:700; color:var(--dark); margin-bottom:2px;">销量要求</div>
-            <div class="body-sm">30天内新品或有动销商品</div>
-          </div>
-        </div>
-        <div class="req-item" style="border-bottom:none;">
-          <div class="req-dot" style="background:var(--yellow);"></div>
-          <div>
-            <div style="font-size:clamp(12px,.9vw,14px); font-weight:700; color:var(--dark); margin-bottom:2px;">大促期间额外要求</div>
-            <div class="body-sm">item 下所有 SKU 均需报名 85折直降活动（或为无促销有氛围商品）</div>
-          </div>
-        </div>
+      <div class="qa t">
+        <div class="qa-q">系统提示"商品SKU价格高于主品或渠道品"？</div>
+        <div class="qa-a">活动全周期（<strong>5月22日0点—6月18日24点</strong>）期间，活动品价格需≤主品和渠道品。当前页面价格只是今天的，需整个周期都保持低价！<br>自查：检查单品特价等促销是否整个周期都生效<br>解决：进千帆【单品特价】模块，设置一个低于提示价的价格</div>
+      </div>
+      <div class="qa pu">
+        <div class="qa-q">系统提示"价格高于历史30天价格"？</div>
+        <div class="qa-a">历史30天内，商家设置过更低价格，一般是商家设置的各类活动和促销导致。检查是否有临时促销活动设置了更低价。</div>
+      </div>
+      <div class="qa y">
+        <div class="qa-q">商品满足30天内新品或有动销商品，但系统拒绝？</div>
+        <div class="qa-a">给DIBP发消息：商品id：xxxx，是否满足30天内新品或有动销商品。如果满足，提供截图到【商家混资行业问题反馈】，问题日清。</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S6: 发券 -->
-  <div class="slide" id="s6">
-    <div class="s-inner" style="flex-direction:column;">
-      <div class="eyebrow">发券说明</div>
-      <div class="h2" style="margin-bottom:2vh;">直播间发券 · 全场域可用</div>
-      <div class="top">
-        <div class="voucher-stat">
-          <div class="vs-icon">🎪</div>
-          <div class="vs-val" style="color:var(--pink);">仅直播间</div>
-          <div class="vs-label">发券场景（必须开播）</div>
-        </div>
-        <div class="voucher-stat">
-          <div class="vs-icon">📋</div>
-          <div class="vs-val">≥ 5 个</div>
-          <div class="vs-label">比价成功商品数（发券门槛）</div>
-        </div>
-        <div class="voucher-stat">
-          <div class="vs-icon">👥</div>
-          <div class="vs-val">2 张</div>
-          <div class="vs-label">单用户单直播间持券上限</div>
-        </div>
-        <div class="voucher-stat">
-          <div class="vs-icon">🌐</div>
-          <div class="vs-val">全场域</div>
-          <div class="vs-label">领券后可用范围</div>
+<!-- S8: 商品FAQ② -->
+<div class="slide" id="s8" style="background:#fff">
+  <div class="si">
+    <div class="ey">商品报名</div>
+    <div class="h2" style="margin-bottom:2vh">商品报名常见问题（二）</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2vh 1.2vw;flex:1">
+      <div class="qa"><div class="qa-q">新建链接的商品今天不允许报名？</div><div class="qa-a">新建链接的商品<strong>第二天下午16点</strong>才可以报名。从0516开始，改为<strong>第二天上午9点</strong>可以报名。</div></div>
+      <div class="qa t"><div class="qa-q">为什么必须报名10个以上商品？</div><div class="qa-a">商品数太低时，用户在直播间内比较难凑单，转化效率低。且需要比价成功的商品数≥5个，直播间才能发券。</div></div>
+      <div class="qa pu"><div class="qa-q">商品提示"非可用平台券"？</div><div class="qa-a">不可用平台券情况：①行业am配置禁用/命中风控；②3折以内商品（到手价/商品原价≤0.3）；③秒杀品；④试用品；⑤免单优惠；⑥货补优惠</div></div>
+      <div class="qa y"><div class="qa-q">商品提示"命中风控"？</div><div class="qa-a">进群反馈，找风控负责人处理。如需加急请在【商家混资行业问题反馈】表格登记，问题日清。</div></div>
+      <div class="qa"><div class="qa-q">活动商品为什么不能新增SKU/涨原价？</div><div class="qa-a">报名后只降不涨，不允许新增SKU。如果需要进行相关操作，请<strong>撤销活动后重新报名</strong>。</div></div>
+      <div class="qa t" style="grid-row:span 1">
+        <div class="qa-q">如何批量报名 / 一键报名？</div>
+        <div class="qa-a">
+          · 报名时可通过【<strong>上传表格报名</strong>】批量报名<br>
+          · 报名时可通过【<strong>一键快速报名</strong>】把店铺内所有符合条件的商品一键报上
         </div>
       </div>
-      <div class="bot">
-        <div class="voucher-info">
-          <div class="vi-title">🕐 券有效期规则</div>
-          <ul class="vi-list">
-            <li>周一到周四领的券 → <strong>周四 24:00</strong> 过期</li>
-            <li>周五到周日领的券 → <strong>周日 24:00</strong> 过期</li>
-            <li>按自然周循环，提醒用户及时使用</li>
-          </ul>
+      <div class="qa pu"><div class="qa-q">如何查看已报名商品所有状态？</div><div class="qa-a">在【已报名商品管理】页面，点击【<strong>导出全部报名商品</strong>】，即可查看所有商品的报名状态和比价结果。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S9: 发券基础 -->
+<div class="slide dark-slide" id="s9">
+  <div class="si">
+    <div class="ey">发券说明</div>
+    <div class="h2" style="margin-bottom:2vh">直播间发券 · 全场域可用</div>
+    <div style="display:flex;gap:1.5vw;margin-bottom:2vh">
+      <div class="vs"><div class="vs-i">🎪</div><div class="vs-v" style="color:var(--pink);font-size:clamp(14px,1.2vw,18px)">仅直播间</div><div class="vs-l">发券场景（必须开播）</div></div>
+      <div class="vs"><div class="vs-i">📋</div><div class="vs-v">≥5个</div><div class="vs-l">比价成功商品数（发券门槛）</div></div>
+      <div class="vs"><div class="vs-i">👥</div><div class="vs-v">2张</div><div class="vs-l">单用户单直播间持券上限</div></div>
+      <div class="vs"><div class="vs-i">🌐</div><div class="vs-v" style="font-size:clamp(14px,1.2vw,18px)">全场域</div><div class="vs-l">领券后可用范围</div></div>
+    </div>
+    <div style="display:flex;gap:1.5vw;flex:1">
+      <div class="vi"><div class="vi-t">🕐 券有效期规则</div><ul class="ul"><li>周一到周四领的券 → <strong>周四 24:00</strong> 过期</li><li>周五到周日领的券 → <strong>周日 24:00</strong> 过期</li><li>按自然周循环，提醒用户及时使用</li></ul></div>
+      <div class="vi" style="flex:1.5"><div class="vi-t">🎟 用户领券方式</div><ul class="ul"><li>进入直播间停留 <strong>10秒</strong> 后自动弹窗领券</li><li>左上角挂件入口</li><li>购物袋顶部领券中心</li><li>由平台直接对用户发放，<strong>不需要商家手动触发</strong></li></ul></div>
+      <div class="vi" style="flex:1.5"><div class="vi-t">📊 用户券门槛说明</div><ul class="ul"><li>根据用户在直播间的购买 × 用户购买力 × 报名商品总金额发券</li><li>约 <strong>15%</strong> 左右的人为对照组，会发放小门槛的券</li><li>不开播则不能发券</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- S10: 发券FAQ① -->
+<div class="slide" id="s10" style="background:#fff">
+  <div class="blob" style="width:22vw;height:22vw;background:var(--pp);opacity:.7;top:-4vh;right:0"></div>
+  <div class="si">
+    <div class="ey">发券说明</div>
+    <div class="h2" style="margin-bottom:2vh">发券常见问题（一）</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2vh 1.5vw;flex:1">
+      <div class="qa" style="grid-row:span 2">
+        <div class="qa-q">混资券和其他活动怎么叠加？</div>
+        <div class="qa-a">
+          混资券属于<strong>平台券</strong>，单个商品仅能使用<strong>一张平台券</strong>（与宠粉清单补贴互斥）<br><br>
+          但平台券<strong>可以与买手券/商家券叠加</strong>（店铺立减、满减、赠品等）<br><br>
+          <strong>举例：</strong><br>
+          商品原价100元 → 商家报85折活动 → 85元<br>
+          → 商家又报混资8折 → 用户到手 <strong>68元</strong>，商家到手 <strong>76.5元</strong><br>
+          → 若还有10元商家立减券 → 用户到手 <strong>58元</strong>，商家到手 <strong>66.5元</strong>
         </div>
-        <div class="voucher-info" style="flex:2;">
-          <div class="vi-title">📊 券叠加说明</div>
-          <ul class="vi-list">
-            <li>混资券属<strong>平台券</strong>，单商品仅限用一张平台券</li>
-            <li>可与<strong>买手券 / 商家券叠加</strong>（店铺立减、满减、赠品等）</li>
-            <li>举例：100元商品报85折(85元)再叠加混资8折 → 用户到手 <strong>68元</strong>，商家到手 76.5元</li>
-          </ul>
+      </div>
+      <div class="qa t">
+        <div class="qa-q">KOL/KOS/伪K/矩阵号直播时会自动发券吗？</div>
+        <div class="qa-a">
+          满足以下条件即可发券：<br>
+          ①直播间挂载的item必须是<strong>报名成功的链接</strong>（挂渠道品但主品报名≠报名，不发券）<br>
+          ②挂载的商家混资券商品数≥5个且为<strong>同一折扣力度</strong><br>
+          若8折和8.8折报名成功的商品都≥5个，<strong>只发8折券</strong>且仅8折活动商品可用<br>
+          · KOS：做好账号关联即可<br>
+          · 矩阵号：一个店播id对多个直播账号，做好账号关联<br>
+          · 伪K：支持一个直播间伪K发券
         </div>
-        <div class="voucher-info">
-          <div class="vi-title">📱 用户领券方式</div>
-          <ul class="vi-list">
-            <li>进入直播间停留 10s 自动弹窗</li>
-            <li>左上角挂件入口</li>
-            <li>购物袋顶部领券中心</li>
-            <li>平台直接发放，无需手动触发</li>
-          </ul>
-        </div>
+      </div>
+      <div class="qa pu">
+        <div class="qa-q">直播间同时有商家混资券和买手混资券（直播福利券），如何发券？</div>
+        <div class="qa-a">用户可通过左上角挂件<strong>一键领取</strong>买手和商家混资；弹窗正在测试，预期618正式期间会在<strong>一个弹窗</strong>里同时发放商家和买手的混资券。</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S7: 比价 -->
-  <div class="slide" id="s7">
-    <div class="blob b1"></div>
-    <div class="s-inner row" style="gap:5vw; align-items:center;">
-      <div class="left">
-        <div class="eyebrow">站外比价</div>
-        <div class="h2">比价规则 &amp;<br>注意事项</div>
-        <div class="divider"></div>
-        <div class="body" style="margin-bottom:2vh; max-width:360px;">
-          比价需<strong>补前价 &amp; 补后价两个价格都通过</strong>才算通过。分机器（T+1）和人工两条链路，务必提前填写直播计划。
-        </div>
-        <div class="compare-table-wrap">
-          <table class="s-table">
-            <thead><tr><th>比价结果</th><th>是否通过</th></tr></thead>
-            <tbody>
-              <tr><td>无同源店铺</td><td class="pass">✓ 通过</td></tr>
-              <tr><td>无同款</td><td class="pass">✓ 通过</td></tr>
-              <tr><td>站内价 ≤ 站外价</td><td class="pass">✓ 通过</td></tr>
-              <tr><td>站内价高于站外</td><td class="fail">✗ 不通过</td></tr>
-            </tbody>
-          </table>
+<!-- S11: 发券FAQ② -->
+<div class="slide" id="s11" style="background:#fff">
+  <div class="blob" style="width:22vw;height:22vw;background:var(--tl);opacity:.25;top:-4vh;right:0"></div>
+  <div class="si row" style="gap:4vw;align-items:flex-start;padding-top:5vh">
+    <div style="flex:1">
+      <div class="ey">发券说明</div>
+      <div class="h2" style="margin-bottom:2vh">直播间不发券<br>怎么排查？</div>
+      <ul class="cl">
+        <li><div class="num">1</div><div>附身商家后台，检查直播间<strong>挂载的报名成功商品数</strong>是否≥5个（注意：活动状态必须为"活动中"）</div></li>
+        <li><div class="num">2</div><div>注意<strong>活动周期！</strong>如果报名的是522-618的活动，只有522-618期间才会发券</div></li>
+        <li><div class="num">3</div><div>报名成功的定义：活动状态为<strong>"活动中"</strong></div></li>
+        <li><div class="num">4</div><div>用户需在直播间<strong>停留10秒以上</strong>才会触发发券弹窗</div></li>
+        <li><div class="num">5</div><div>不开播则完全不发券，商家必须保持开播状态</div></li>
+      </ul>
+    </div>
+    <div style="width:46vw;display:flex;flex-direction:column;gap:1.2vh">
+      <div class="qa t">
+        <div class="qa-q">领券后只能在直播间用吗？</div>
+        <div class="qa-a">不是。店铺内所有活动报名商品，在<strong>全场域都可用</strong>（直播间、店铺主页、购物车等）。但一张混资券<strong>仅限在发券直播间内</strong>报名成功的活动商品上使用，<strong>不可跨直播间</strong>使用。</div>
+      </div>
+      <div class="qa">
+        <div class="qa-q">发了券，但报名成功的商品无法用券怎么办？</div>
+        <div class="qa-a">如果商品<strong>普惠价/原价≤0.3</strong>，会触发平台风控导致不可用平台券。<br>例：原价1000元，普惠价200元（折扣=0.2）→ 不可用平台券<br>例：原价1000元，普惠价500元（折扣=0.5）→ 可用平台券</div>
+      </div>
+      <div class="qa pu">
+        <div class="qa-q">不开播能发券吗？</div>
+        <div class="qa-a">不能。券<strong>仅在直播间场景下发</strong>，商家必须开播，用户才能领到券。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S12: 站外比价规则 -->
+<div class="slide" id="s12">
+  <div class="blob" style="width:24vw;height:24vw;background:var(--tl);opacity:.25;top:-5vh;right:0"></div>
+  <div class="si row" style="gap:5vw;align-items:center">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+      <div class="ey">站外比价</div>
+      <div class="h2">比价规则 &amp;<br>注意事项</div>
+      <div class="div"></div>
+      <div class="body" style="max-width:320px;margin-bottom:2vh"><strong>补前价 &amp; 补后价两个价格都通过</strong>，比价才算通过。</div>
+      <div style="border-radius:14px;overflow:hidden;box-shadow:0 3px 16px rgba(0,0,0,.08)">
+        <table class="tb">
+          <thead><tr><th>比价结果</th><th>是否通过</th></tr></thead>
+          <tbody>
+            <tr><td>无同源店铺</td><td class="pass">✓ 通过</td></tr>
+            <tr><td>无同款</td><td class="pass">✓ 通过</td></tr>
+            <tr><td>站内价 ≤ 站外价</td><td class="pass">✓ 通过</td></tr>
+            <tr><td>站内价高于站外价</td><td class="fail">✗ 不通过</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style="width:46vw;flex-shrink:0;display:flex;flex-direction:column;gap:1.5vh;justify-content:center">
+      <div class="card">
+        <div style="font-size:clamp(11px,.88vw,14px);font-weight:700;color:var(--dark);margin-bottom:1vh">📊 比价口径说明</div>
+        <div class="sm" style="line-height:1.8">
+          <strong>站内补前价（千人一面价）</strong> vs <strong>站外补前价（千人一面价）</strong><br>
+          <strong>站内补后价（千人千面价）</strong> vs <strong>站外补后价（千人千面价）</strong><br><br>
+          两个价格维度<strong>均需通过</strong>，比价才算通过。
         </div>
       </div>
-      <div class="right">
-        <div class="flow-wrap">
-          <div class="flow-title">⏱ 比价流程（机器 vs 人工）</div>
-          <div class="flow2">
-            <div class="flow2-row"><div class="flow2-box hl">招商系统报名</div></div>
-            <div class="flow2-row" style="justify-content:center;"><div class="flow2-arrow">↓</div></div>
-            <div class="flow2-row"><div class="flow2-box hl">报名通过 · 推给比价</div></div>
-            <div class="flow2-row">
-              <div class="flow2-box" style="border-top:3px solid var(--teal);">
-                <div style="color:var(--teal);font-weight:800;margin-bottom:4px;">机器比价</div>
-                填写直播计划 &amp; 提前2天+
-              </div>
-              <div class="flow2-arrow">|</div>
-              <div class="flow2-box" style="border-top:3px solid #FF9800;">
-                <div style="color:#FF9800;font-weight:800;margin-bottom:4px;">人工比价</div>
-                未填计划或临近开播
-              </div>
+      <div class="warn" style="background:var(--pp)">
+        <strong>🚨 重要：</strong>因不提前报名，或没有填写直播计划，导致比价未完成的，<strong>没有绿色通道！</strong>
+      </div>
+      <div style="background:var(--tl);border-radius:12px;padding:1.2vh 1.2vw;font-size:clamp(10px,.82vw,13px);color:#00695C;font-weight:600">
+        🔍 查询比价结果：千帆 → 营销 → 营销活动 → 已报名管理 → 【导出驳回记录】
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S13: 比价流程 -->
+<div class="slide dark-slide" id="s13">
+  <div class="si">
+    <div class="ey">站外比价</div>
+    <div class="h2" style="margin-bottom:2.5vh">比价流程 &amp; 时长</div>
+    <div style="display:flex;gap:2vw;flex:1">
+      <div style="flex:1.2;display:flex;flex-direction:column;gap:1.2vh">
+        <div style="background:rgba(255,255,255,.06);border-radius:14px;padding:2vh 1.8vw;flex:1">
+          <div style="font-size:clamp(10px,.82vw,13px);font-weight:700;color:rgba(255,255,255,.45);margin-bottom:1.5vh;letter-spacing:1px">FLOW · 比价流程</div>
+          <div class="flow">
+            <div class="frow"><div class="fbox hl">招商系统报名</div></div>
+            <div style="color:var(--pink);text-align:center;font-size:16px">↓</div>
+            <div class="frow"><div class="fbox hl">报名通过 · 分流推给比价</div></div>
+            <div style="color:var(--pink);text-align:center;font-size:16px">↓</div>
+            <div class="frow">
+              <div class="fbox hl2" style="font-size:clamp(9px,.75vw,11px)">填写直播计划<br>且提前≥2天</div>
+              <div style="color:rgba(255,255,255,.3);font-size:13px">|</div>
+              <div class="fbox" style="border-top:2px solid #FF9800;font-size:clamp(9px,.75vw,11px)">未填直播计划<br>或距开播&lt;2天</div>
+            </div>
+            <div class="frow" style="gap:1.2vw">
+              <div style="flex:1;color:var(--teal);text-align:center;font-size:14px">↓</div>
+              <div style="width:1px"></div>
+              <div style="flex:1;color:#FF9800;text-align:center;font-size:14px">↓</div>
+            </div>
+            <div class="frow" style="gap:1.2vw">
+              <div class="fbox" style="border-top:2px solid var(--teal);font-size:clamp(9px,.75vw,11px)"><span style="color:var(--teal);font-weight:800">机器比价</span><br>T+1日产出（最晚T+2）</div>
+              <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+              <div class="fbox" style="border-top:2px solid #FF9800;font-size:clamp(9px,.75vw,11px)"><span style="color:#FF9800;font-weight:800">人工比价</span><br>一天60个item，仅兜底</div>
             </div>
           </div>
         </div>
-        <div class="warn-box" style="margin-top:.5vh;">
-          <strong>🚨 重要：</strong>未提前报名或未填写直播计划，导致比价未完成的，<strong>没有绿色通道！</strong>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:1.2vh">
+        <div style="background:var(--pink);border-radius:14px;padding:2vh 1.6vw">
+          <div style="font-size:clamp(11px,.88vw,14px);font-weight:800;color:#fff;margin-bottom:.8vh">⚡ 重要提示</div>
+          <div style="font-size:clamp(10px,.82vw,13px);color:rgba(255,255,255,.9);line-height:1.7">
+            · 请务必<strong>填写直播计划</strong>，并在报名通过后留<strong>2天时间</strong>给机器比价<br>
+            · 因不提前报名或未填直播计划导致比不完的，<strong>没有绿色通道</strong><br>
+            · 人工比价额度有限（一天60个item），越临近开播、B等级越高越先比
+          </div>
         </div>
-        <div style="background:var(--teal-light); border-radius:14px; padding:1.3vh 1.3vw; font-size:clamp(11px,.85vw,13px); color:#00695C; font-weight:600;">
-          🔍 查询比价结果：千帆 → 营销 → 营销活动 → 已报名管理 → 【导出驳回记录】
+        <div style="background:rgba(255,255,255,.06);border-radius:14px;padding:1.6vh 1.5vw;flex:1">
+          <div style="font-size:clamp(10px,.82vw,13px);font-weight:700;color:rgba(255,255,255,.45);margin-bottom:.8vh;letter-spacing:1px">人工比价优先级排序</div>
+          <div style="font-size:clamp(10px,.82vw,13px);color:rgba(255,255,255,.7);line-height:1.8">
+            ① 剔除无同源店铺（直接通过）<br>
+            ② 有同源店铺 → 按<strong>临近开播时间</strong>排序<br>
+            （越临近开播，越先比价）<br>
+            ③ 同等临近程度 → 按<strong>商家月销B等级</strong>排序<br>
+            （B等级越高，越先比价）
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S8: 结算 -->
-  <div class="slide" id="s8">
-    <div class="s-inner" style="flex-direction:column;">
-      <div class="eyebrow">资金结算</div>
-      <div class="h2" style="color:white; margin-bottom:3vh;">商家出资怎么算？</div>
-      <div class="cards-row">
-        <div class="settle-card sc1">
-          <div class="sc-icon">💵</div>
-          <div class="sc-title">核心原则</div>
-          <div class="sc-body">商家承担金额 = <strong>优惠券面额 × 50%</strong>，与用户实际购买总价无关</div>
-        </div>
-        <div class="settle-card sc2">
-          <div class="sc-icon">📋</div>
-          <div class="sc-title">不需要预付</div>
-          <div class="sc-body">直接按折扣后价格结算，平台补贴金额<strong>直接算给商家实收</strong></div>
-        </div>
-        <div class="settle-card sc3">
-          <div class="sc-icon">💹</div>
-          <div class="sc-title">佣金计算</div>
-          <div class="sc-body">佣金按<strong>商家实收价格</strong>计算，而非用户到手价</div>
-        </div>
+<!-- S14: 比价查询 -->
+<div class="slide" id="s14" style="background:#fff">
+  <div class="blob" style="width:22vw;height:22vw;background:var(--pp);opacity:.7;bottom:-4vh;left:-4vw"></div>
+  <div class="si row" style="gap:4vw;align-items:center">
+    <div style="flex:1;display:flex;flex-direction:column;gap:1.2vh;justify-content:center">
+      <div class="ey">站外比价</div>
+      <div class="h2">比价结果<br>如何查询？</div>
+      <div class="div"></div>
+      <div class="pc">
+        <div class="pt">💻 商家端 · 千帆查询</div>
+        <div class="ps">千帆<span class="a">→</span>营销<span class="a">→</span>营销活动<span class="a">→</span>已报名管理<span class="a">→</span>【<strong>导出驳回记录</strong>】<br>驳回记录中可查看每个商品的比价结果和驳回原因</div>
       </div>
-      <div class="example-section">
-        <div style="flex:1;">
-          <div class="ex-title">CASE 1 · 单品分摊</div>
-          <div class="ex-body">
-            用户领了 <strong>满200减40</strong> 的券，实际买了300元的商品<br>
-            商家承担：<strong>40 × 50% = 20元</strong>（固定，不随购买金额变化）<br>
-            用户实付：300 - 40 = 260元<br>
-            商家实收：300 - 20 = <strong>280元</strong>
-          </div>
-        </div>
-        <div style="width:1px; background:rgba(255,255,255,.1);"></div>
-        <div style="flex:1;">
-          <div class="ex-title">CASE 2 · 多品按比例分摊</div>
-          <div class="ex-body">
-            商品A 150元 + 商品B 50元，使用满200减40的券<br>
-            A 承担：150/200 × 40 × 50% = <strong>15元</strong>；实收 <strong>135元</strong><br>
-            B 承担：50/200 × 40 × 50% = <strong>5元</strong>；实收 <strong>45元</strong><br>
-            按金额占比分摊，规则清晰透明
-          </div>
-        </div>
+      <div class="warn">
+        <strong>⚠ 查不到结果时，必须 check：</strong><br>
+        ①活动名称是否为【<strong>周年庆</strong>】及【<strong>对应折扣</strong>】<br>
+        ②比价链路【<strong>人工</strong>】/【<strong>机器</strong>】是否<strong>都查询过</strong>
+      </div>
+    </div>
+    <div style="width:48vw;display:flex;flex-direction:column;gap:1.2vh;justify-content:center">
+      <div class="pc">
+        <div class="pt">🔍 行业am · 鹰眼查询</div>
+        <div class="ps" style="margin-bottom:1vh">地址：hawkeye.devops.xiaohongshu.com/hawk/manual-marking/seller-subsidy</div>
+        <div class="sm">输入 <strong>itemid 或 sellerid</strong> 查询，可查看机器比价和人工比价的详细结果，包括比价时间、比价链路、比价结论。</div>
+      </div>
+      <div class="qa t">
+        <div class="qa-q">如何查看比价口径规则？</div>
+        <div class="qa-a">详细的同店/同品/比价口径规则，请参考内部文档：<strong>业务人工比价：同店、同款、价格计算规则——V1</strong></div>
+      </div>
+      <div class="qa pu">
+        <div class="qa-q">比价不通过，如何申诉？</div>
+        <div class="qa-a">比价申诉流程请联系相应行业负责人，提供商品id和比价不通过截图。线上紧急问题可在【商家混资行业问题反馈】表格登记，每天小时级清理。</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S9: 撤销 -->
-  <div class="slide" id="s9">
-    <div class="s-inner row" style="gap:5vw; align-items:center;">
-      <div class="left">
-        <div class="eyebrow">撤销报名</div>
-        <div class="h2">如何撤销<br>报名商品？</div>
-        <div class="divider"></div>
-        <div class="body" style="margin-bottom:2vh; max-width:320px;">
-          支持单品撤销和批量撤销，撤销后可重新报名（需重新通过比价审核）。
-        </div>
-        <div class="warn-box">
-          <strong>🚫 注意：</strong>直播中由于已发券，<strong>不可撤销报名</strong>，需等待下播后再操作。
+<!-- S15: 资金结算原则 -->
+<div class="slide dark-slide" id="s15">
+  <div class="si">
+    <div class="ey">资金结算</div>
+    <div class="h2" style="margin-bottom:2.5vh">商家出资怎么算？</div>
+    <div style="display:flex;gap:1.5vw;margin-bottom:2vh">
+      <div class="scc scc1"><div class="scc-i">💵</div><div class="scc-t">核心原则</div><div class="scc-b">商家承担金额 = <strong>优惠券面额 × 50%</strong>，与用户实际购买商品总价无关</div></div>
+      <div class="scc scc2"><div class="scc-i">📋</div><div class="scc-t">不需要预付</div><div class="scc-b">直接按折扣后价格结算，平台补贴金额<strong>直接算给商家实收</strong></div></div>
+      <div class="scc scc3"><div class="scc-i">💹</div><div class="scc-t">佣金计算</div><div class="scc-b">佣金按<strong>商家实收价格</strong>计算，而非用户到手价</div></div>
+    </div>
+    <div class="exsec">
+      <div style="flex:1">
+        <div class="ex-t">CASE 1 · 单张券 · 凑单</div>
+        <div class="ex-b">
+          用户领了 <strong>满200减40</strong> 的券，实际凑单买了300元<br>
+          商家承担：<strong>40 × 50% = 20元</strong>（固定，不随凑单金额变化）<br>
+          用户实付：300 - 40 = 260元<br>
+          商家实收：300 - 20 = <strong>280元</strong>
         </div>
       </div>
-      <div class="right">
-        <div class="path-card">
-          <div class="path-title">💻 千帆 PC 端路径</div>
-          <div class="path-steps">
-            <div><span style="color:var(--pink);font-weight:700;">路径1</span><span class="sep">·</span>营销<span class="sep">→</span>营销活动<span class="sep">→</span>活动报名管理<span class="sep">→</span>活动管理<span class="sep">→</span>已报名商品管理<span class="sep">→</span>撤销报名</div>
-            <div style="margin-top:6px;"><span style="color:var(--pink);font-weight:700;">路径2</span><span class="sep">·</span>营销<span class="sep">→</span>营销活动<span class="sep">→</span>商品管理<span class="sep">→</span>选择商品<span class="sep">→</span>撤销报名</div>
-          </div>
-        </div>
-        <div class="path-card">
-          <div class="path-title">📱 千帆移动端路径</div>
-          <div class="path-steps">
-            首页<span class="sep">→</span>全部工具<span class="sep">→</span>营销<span class="sep">→</span>活动报名<span class="sep">→</span>报名记录<span class="sep">→</span>选择活动 &amp; 商品<span class="sep">→</span>撤销报名
-          </div>
-        </div>
-        <div class="faq-item">
-          <div style="font-size:24px;flex-shrink:0;">🔄</div>
-          <div>
-            <div class="faq-q">撤销后可以重新报名吗？</div>
-            <div class="faq-a">可以，但需重新满足活动规则，并重新通过站外比价审核。</div>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div style="font-size:24px;flex-shrink:0;">📋</div>
-          <div>
-            <div class="faq-q">支持批量撤销吗？</div>
-            <div class="faq-a">支持。在「已报名商品管理」页面勾选多个商品即可批量撤销。</div>
-          </div>
+      <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+      <div style="flex:1.2">
+        <div class="ex-t">CASE 2 · 多件商品 · 按比例分摊</div>
+        <div class="ex-b">
+          商品A 180元 + 商品B 120元，共300元，使用满200减40的券<br>
+          A分摊：180/300×40=24元，商家承担：24×50%=<strong>12元</strong>，商家实收：<strong>168元</strong><br>
+          B分摊：120/300×40=16元，商家承担：16×50%=<strong>8元</strong>，商家实收：<strong>112元</strong><br>
+          按商品金额占比分摊，规则清晰透明
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S10: 结尾 -->
-  <div class="slide" id="s10">
-    <div class="s-inner" style="align-items:center; justify-content:center; text-align:center;">
-      <div class="end-tag">🔥 618周年庆 · 5月22日 正式开启</div>
-      <div class="end-title">现在报名<br>抢先起跑！</div>
-      <div class="end-sub">
-        平台出资 50% · 最高优惠 1000 元<br>
-        让更多用户买到更好的价格 🎉
+<!-- S16: 结算FAQ -->
+<div class="slide" id="s16" style="background:#fff">
+  <div class="blob" style="width:22vw;height:22vw;background:var(--yp);opacity:.8;bottom:-4vh;right:-3vw"></div>
+  <div class="si row" style="gap:4vw;align-items:flex-start;padding-top:5vh">
+    <div style="flex:1;display:flex;flex-direction:column;gap:1.2vh">
+      <div class="ey">资金结算</div>
+      <div class="h2" style="margin-bottom:1.5vh">结算 FAQ &amp;<br>出资查看</div>
+      <div class="qa">
+        <div class="qa-q">多件商品共用一张混资券，出资怎么分摊？</div>
+        <div class="qa-a"><strong>按商品金额占比分摊。</strong>例：满200减40（平台商家50:50），用户买A 150元+B 50元：<br>A承担：150/200×40×50%=<strong>15元</strong>，实收<strong>135元</strong><br>B承担：50/200×40×50%=<strong>5元</strong>，实收<strong>45元</strong></div>
       </div>
-      <div class="end-chips">
-        <div class="end-chip">📅 5/22 — 6/18 报名</div>
-        <div class="end-chip">🔗 登录千帆后台操作</div>
-        <div class="end-chip">🚀 提前填写直播计划</div>
+      <div class="qa t">
+        <div class="qa-q">佣金怎么计算？</div>
+        <div class="qa-a">佣金按<strong>商家实收价格</strong>计算。例：渠道品100元，佣金率20%，混资8折后用户到手80元，商家出资10元，实收90元，佣金=<strong>90×20%=18元</strong></div>
       </div>
-      <div class="end-logo">🌍 小红书商家中心 · 商家混资活动</div>
+    </div>
+    <div style="width:48vw;display:flex;flex-direction:column;gap:1.2vh">
+      <div class="qa pu">
+        <div class="qa-q">商家是否需要提前出资？</div>
+        <div class="qa-a">不需要。直接按折扣后价格结算，平台补贴金额会直接算给商家的实收，无需商家提前垫付。</div>
+      </div>
+      <div class="card">
+        <div style="font-size:clamp(11px,.88vw,14px);font-weight:700;color:var(--dark);margin-bottom:1vh">📋 如何查看出资情况？</div>
+        <div class="sm" style="line-height:2">
+          <strong>步骤一：</strong>订单管理 → 订单详情<br>
+          <strong>步骤二：</strong>优惠信息 → 优惠明细<br>
+          <strong>步骤三：</strong>混资券展示为"<strong>平台特定商品券</strong>"，可查看：<br>
+          &nbsp;&nbsp;· 平台优惠金额（平台承担部分）<br>
+          &nbsp;&nbsp;· 店铺优惠（商家承担部分）
+        </div>
+      </div>
     </div>
   </div>
+</div>
+
+<!-- S17: 撤销 -->
+<div class="slide" id="s17" style="background:#fff">
+  <div class="blob" style="width:22vw;height:22vw;background:var(--pp);opacity:.6;top:-4vh;right:-3vw"></div>
+  <div class="si row" style="gap:4vw;align-items:flex-start;padding-top:5vh">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+      <div class="ey">撤销报名</div>
+      <div class="h2">如何撤销<br>报名商品？</div>
+      <div class="div"></div>
+      <div class="body" style="max-width:320px;margin-bottom:1.5vh">支持单品撤销和批量撤销，撤销后可重新报名（需重新通过比价审核）。</div>
+      <div class="warn">
+        <strong>🚫 注意：</strong>直播中由于已发券，<strong>不可撤销报名</strong>，需等待<strong>下播后</strong>再操作。
+      </div>
+    </div>
+    <div style="width:52vw;display:flex;flex-direction:column;gap:1.2vh">
+      <div class="pc">
+        <div class="pt">💻 千帆 PC 端</div>
+        <div class="ps">路径1：营销<span class="a">→</span>营销活动<span class="a">→</span>活动报名管理<span class="a">→</span>活动管理<span class="a">→</span>选择对应活动<span class="a">→</span>已报名商品管理<span class="a">→</span><strong>撤销报名</strong></div>
+        <div class="ps" style="margin-top:.5vh">路径2：营销<span class="a">→</span>营销活动<span class="a">→</span>活动报名管理<span class="a">→</span>商品管理<span class="a">→</span>选择对应商品<span class="a">→</span><strong>撤销报名</strong></div>
+      </div>
+      <div class="pc">
+        <div class="pt">📱 千帆移动端</div>
+        <div class="ps">首页<span class="a">→</span>全部工具<span class="a">→</span>营销<span class="a">→</span>活动报名<span class="a">→</span>报名记录<span class="a">→</span>选择对应活动<span class="a">→</span>选择对应商品<span class="a">→</span><strong>撤销报名</strong></div>
+      </div>
+      <div class="qa t"><div class="qa-q">撤销后可以重新报名吗？</div><div class="qa-a">可以，但需重新满足活动规则，并重新通过站外比价审核。</div></div>
+      <div class="qa pu"><div class="qa-q">支持批量撤销吗？</div><div class="qa-a">支持。在【已报名商品管理】页面勾选多个商品即可批量撤销报名。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S18: 结尾 -->
+<div class="slide" id="s18">
+  <div class="si">
+    <div class="etag">🔥 618周年庆 · 5月22日 正式开启</div>
+    <div class="etitle">现在报名<br>抢先起跑！</div>
+    <div class="esub">平台出资 50% · 最高优惠 1000 元<br>让更多用户买到更好的价格 🎉</div>
+    <div class="echips">
+      <div class="ech">📅 5/22 — 6/18 报名</div>
+      <div class="ech">🔗 登录千帆后台操作</div>
+      <div class="ech">🚀 提前填写直播计划</div>
+    </div>
+    <div style="background:rgba(255,255,255,.15);border-radius:14px;padding:1.2vh 2vw;margin-bottom:2.5vh;font-size:clamp(11px,.88vw,14px);color:rgba(255,255,255,.88);line-height:1.6">
+      💬 有问题请在【商家混资行业问题反馈】表格登记<br>线上紧急问题每天小时级清理，私聊和群里艾特消息太多会漏
+    </div>
+    <div class="elogo">🌍 小红书商家中心 · 商家混资活动</div>
+  </div>
+</div>
 
 </div><!-- /deck -->
 
-<!-- PROGRESS + NAV -->
 <div id="progress"></div>
-<div id="slide-num">1 / 10</div>
+<div id="slide-num"></div>
 <div id="nav-dots"></div>
-<div id="arrow-hint">← → / ↑ ↓ / scroll</div>
+<div id="hint">← → / ↑ ↓ / scroll</div>
 
 <script>
-(function () {
+(function(){
   const slides = Array.from(document.querySelectorAll('.slide'));
-  const total  = slides.length;
+  const total = slides.length;
   let cur = 0, locked = false;
 
-  // Build nav dots
   const dotsEl = document.getElementById('nav-dots');
-  slides.forEach((_, i) => {
-    const d = document.createElement('button');
-    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
-    d.addEventListener('click', () => goTo(i));
+  slides.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot'+(i===0?' active':'');
+    d.addEventListener('click',()=>goTo(i));
     dotsEl.appendChild(d);
   });
-  const dots = Array.from(dotsEl.querySelectorAll('.nav-dot'));
+  const dots=Array.from(dotsEl.querySelectorAll('.dot'));
 
-  function goTo(n) {
-    if (n === cur || locked) return;
-    locked = true;
-
-    const forward = n > cur;
-    const oldIdx  = cur;
-    cur = n;
-
-    // --- Step 1: freeze all slides, strip stale state ---
-    slides.forEach((s, i) => {
-      if (i === oldIdx || i === cur) return;
-      s.classList.remove('active', 'prev', 'exit-left', 'exit-right', 'enter-left', 'enter-right');
-    });
-
-    // --- Step 2: pre-position incoming slide off-screen (no transition) ---
-    const incoming = slides[cur];
-    const outgoing = slides[oldIdx];
-
-    // Disable transition temporarily on incoming so it snaps to off-screen
-    incoming.style.transition = 'none';
-    incoming.classList.remove('active', 'prev', 'exit-left', 'exit-right', 'enter-left', 'enter-right');
-    // forward: incoming starts at right (+60px) = default hidden state (no prev)
-    // backward: incoming starts at left (-60px) = prev state
-    if (!forward) incoming.classList.add('prev');
-
-    // Force reflow — browser must register the off-screen position before we add transition
-    incoming.getBoundingClientRect(); // eslint-disable-line
-
-    // --- Step 3: restore transition on incoming, then animate both ---
-    incoming.style.transition = '';
-    incoming.classList.add('active');          // animate in: slides to translateX(0), opacity 1
-    if (!forward) incoming.classList.remove('prev');
-
-    outgoing.classList.remove('active');       // animate out: slides to translateX(60px), opacity 0
-    if (forward) outgoing.classList.add('prev'); // push left when going forward
-
-    // --- Step 4: update UI ---
-    dots.forEach((d, i) => d.classList.toggle('active', i === cur));
-    document.getElementById('slide-num').textContent = (cur + 1) + ' / ' + total;
-    document.getElementById('progress').style.width = ((cur + 1) / total * 100) + '%';
-
-    // --- Step 5: cleanup after transition ---
-    setTimeout(() => {
-      outgoing.classList.remove('prev', 'active');
-      slides.forEach(s => s.classList.remove('prev'));
-      locked = false;
-    }, 480);
+  function update(){
+    dots.forEach((d,i)=>d.classList.toggle('active',i===cur));
+    document.getElementById('slide-num').textContent=(cur+1)+' / '+total;
+    document.getElementById('progress').style.width=((cur+1)/total*100)+'%';
   }
 
-  function next() { if (cur < total - 1) goTo(cur + 1); }
-  function prev() { if (cur > 0)         goTo(cur - 1); }
+  function goTo(n){
+    if(n===cur||locked)return;
+    locked=true;
+    const forward=n>cur;
+    const oldIdx=cur;
+    cur=n;
+    slides.forEach((s,i)=>{if(i!==oldIdx&&i!==cur)s.classList.remove('active','prev');});
+    const incoming=slides[cur];
+    const outgoing=slides[oldIdx];
+    incoming.style.transition='none';
+    incoming.classList.remove('active','prev');
+    if(!forward)incoming.classList.add('prev');
+    incoming.getBoundingClientRect();
+    incoming.style.transition='';
+    incoming.classList.add('active');
+    if(!forward)incoming.classList.remove('prev');
+    outgoing.classList.remove('active');
+    if(forward)outgoing.classList.add('prev');
+    update();
+    setTimeout(()=>{outgoing.classList.remove('prev','active');slides.forEach(s=>s.classList.remove('prev'));locked=false;},480);
+  }
 
-  // Keyboard
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown'  || e.key === ' ') { e.preventDefault(); next(); }
-    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                     { e.preventDefault(); prev(); }
+  function next(){if(cur<total-1)goTo(cur+1);}
+  function prev(){if(cur>0)goTo(cur-1);}
+
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();next();}
+    if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();prev();}
   });
 
-  // Wheel / trackpad
-  let wheelBusy = false;
-  document.addEventListener('wheel', e => {
+  let wBusy=false;
+  document.addEventListener('wheel',e=>{
     e.preventDefault();
-    if (wheelBusy) return;
-    wheelBusy = true;
-    if (e.deltaY > 0 || e.deltaX > 0) next(); else prev();
-    setTimeout(() => { wheelBusy = false; }, 800);
-  }, { passive: false });
+    if(wBusy)return;
+    wBusy=true;
+    if(e.deltaY>0||e.deltaX>0)next();else prev();
+    setTimeout(()=>{wBusy=false;},800);
+  },{passive:false});
 
-  // Touch swipe
-  let touchStartX = 0, touchStartY = 0;
-  document.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
-  document.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if (Math.abs(dx) > Math.abs(dy)) {
-      if (dx < -40) next(); else if (dx > 40) prev();
-    } else {
-      if (dy < -40) next(); else if (dy > 40) prev();
-    }
-  }, { passive: true });
+  let tx=0,ty=0;
+  document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>Math.abs(dy)){if(dx<-40)next();else if(dx>40)prev();}
+    else{if(dy<-40)next();else if(dy>40)prev();}
+  },{passive:true});
 
-  // Init progress
-  document.getElementById('progress').style.width = (1 / total * 100) + '%';
+  update();
 })();
 </script>
 </body>
