@@ -899,19 +899,50 @@ html, body {
   function goTo(n) {
     if (n === cur || locked) return;
     locked = true;
-    slides[cur].classList.remove('active');
-    slides[cur].classList.add(n > cur ? 'prev' : '');
+
+    const forward = n > cur;
+    const oldIdx  = cur;
     cur = n;
-    slides[cur].classList.remove('prev');
-    slides[cur].classList.add('active');
+
+    // --- Step 1: freeze all slides, strip stale state ---
+    slides.forEach((s, i) => {
+      if (i === oldIdx || i === cur) return;
+      s.classList.remove('active', 'prev', 'exit-left', 'exit-right', 'enter-left', 'enter-right');
+    });
+
+    // --- Step 2: pre-position incoming slide off-screen (no transition) ---
+    const incoming = slides[cur];
+    const outgoing = slides[oldIdx];
+
+    // Disable transition temporarily on incoming so it snaps to off-screen
+    incoming.style.transition = 'none';
+    incoming.classList.remove('active', 'prev', 'exit-left', 'exit-right', 'enter-left', 'enter-right');
+    // forward: incoming starts at right (+60px) = default hidden state (no prev)
+    // backward: incoming starts at left (-60px) = prev state
+    if (!forward) incoming.classList.add('prev');
+
+    // Force reflow — browser must register the off-screen position before we add transition
+    incoming.getBoundingClientRect(); // eslint-disable-line
+
+    // --- Step 3: restore transition on incoming, then animate both ---
+    incoming.style.transition = '';
+    incoming.classList.add('active');          // animate in: slides to translateX(0), opacity 1
+    if (!forward) incoming.classList.remove('prev');
+
+    outgoing.classList.remove('active');       // animate out: slides to translateX(60px), opacity 0
+    if (forward) outgoing.classList.add('prev'); // push left when going forward
+
+    // --- Step 4: update UI ---
     dots.forEach((d, i) => d.classList.toggle('active', i === cur));
     document.getElementById('slide-num').textContent = (cur + 1) + ' / ' + total;
     document.getElementById('progress').style.width = ((cur + 1) / total * 100) + '%';
-    // cleanup prev class after transition
+
+    // --- Step 5: cleanup after transition ---
     setTimeout(() => {
+      outgoing.classList.remove('prev', 'active');
       slides.forEach(s => s.classList.remove('prev'));
       locked = false;
-    }, 500);
+    }, 480);
   }
 
   function next() { if (cur < total - 1) goTo(cur + 1); }
